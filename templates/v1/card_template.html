@@ -1,0 +1,55 @@
+<!-- {{ repo.name }} start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category="{{ repo.repo_topics | join(' ') }} {{ repo.language }}"
+  data-stars="{{ repo.stars }}"
+  data-forks="{{ repo.forks }}"
+  data-prs="{{ repo.prs }}"
+  data-pushed-at="{{ repo.pushed_at }}"
+  data-updated-at="{{ repo.updated_at }}"
+  data-created-at="{{ repo.created_at }}"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="{{ repo.repo_url }}">
+      <img src="{{ image_data.image }}" alt="" />
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>{{ repo.stars }}</span></i>
+          <i class="state-item ion-fork-repo"><span>{{ repo.forks }}</span></i>
+          <i class="state-item ion-pull-request"><span>{{ repo.prs }}</span></i>
+          <!-- <img src="{{ repo.license_url }}" /> -->
+        </div>
+      </div>
+    </a>
+    {% if random_image_enabled %}
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="{{ image_data.display_url }}">@{{ image_data.author }}</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="{{ repo.repo_url }}" class="title-a"><h3 class="title">{{ repo.name }}</h3></a>
+    <span class="desc">{{ repo.description }}</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        {% if repo.language %}
+        <a href="#" class="category-tag" data-filter="{{ repo.language }}">{{ repo.language }}</a>
+        {% endif %} {% for topic in repo.repo_topics %}
+        <a href="#" class="category-tag" data-filter="{{ topic }}">{{ topic }}</a>
+        {% endfor %}
+      </div>
+      {% if url %}
+      <!-- Live Demo Button -->
+      <button onclick="location.href='{{ url }}'"><span>Live Demo <i class="ion-radio-waves"></i></span></button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<!-- {{ repo.name }} end -->

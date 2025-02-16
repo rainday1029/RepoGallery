@@ -1,0 +1,89 @@
+/* -----------------------------------
+    Responsive CSS
+--------------------------------------*/
+
+/*-- Laptop Screen --*/
+@media only screen and (min-width: 1171px) and (max-width: 1400px) {
+}
+
+/*-- Desktop : 992px --*/
+@media only screen and (min-width: 992px) and (max-width: 1169px) {
+  .hero-content {
+    margin-top: 91px;
+    padding: 130px 80px;
+  }
+}
+
+/*-- Tablet : 768px --*/
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .hero-content {
+    margin-top: 100px;
+    padding: 85px 40px;
+  }
+  .hero-content h1 {
+    font-size: 36px;
+    line-height: 28px;
+    margin-bottom: 20px;
+  }
+  .hero-content h4 {
+    font-size: 14px;
+  }
+  .footer-copyright,
+  .footer-contact {
+    text-align: center;
+  }
+}
+
+/*-- Large Mobile : 480px --*/
+@media only screen and (max-width: 767px) {
+  .hero-content {
+    margin-top: 0;
+    padding: 50px 40px;
+  }
+  .hero-content h1 {
+    font-size: 44px;
+    line-height: 36px;
+  }
+  .footer-bottom {
+    padding: 5px 0;
+  }
+  .footer-bottom .container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .footer-bottom p {
+    text-align: center;
+    font-size: 10px;
+    margin: 0;
+  }
+  .footer-contact p:last-child::before {
+    display: none;
+  }
+}
+
+/*-- small mobile : 320px --*/
+@media only screen and (max-width: 479px) {
+  .hero-content {
+    padding: 40px 30px;
+  }
+  .hero-content h1 {
+    font-size: 30px;
+    line-height: 30px;
+    margin-bottom: 15px;
+  }
+  .hero-content h4 {
+    font-size: 14px;
+  }
+  .card-filter-bar button {
+    padding: 0 15px;
+  }
+  .card-item a .hover-content {
+    bottom: auto;
+    left: 0;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}

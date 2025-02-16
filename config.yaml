@@ -1,0 +1,32 @@
+site:
+  version: "v1" # Version of the site template "v1"
+  title: "Hi, I'm GITHUB_USERNAME" # Site title
+  description: "This is a collection of my awesome GitHub projects."
+  show_picture: true # Show profile picture
+  picture_path: "" # Profile picture path. Default is your GitHub profile picture.
+  theme: "light" # Theme: "light" / "dark"
+  site_icon: "assets/RepoGallery-light.png" # Site icon path
+
+repos:
+  limit: 0 # Limit the number of repos to display, 0 is unlimited
+  show_forks: false # Show fork repos
+  sort:
+    key: "stars" # Sort by "name" / "stars" / "forks" / "pushed_at" / "updated_at" / "created_at"
+    descending: true # Sort descending
+  random_image: true # Show random image. If false, the first image in the repo README will be shown
+  random_image_theme: "Minimal" # "Minimal" / "Cyberpunk"
+  exclude: # The repos you want to exclude. Default exclude Personal GitHub Page, GitHub Profile and RepoGallery
+    - "GITHUB_USERNAME.github.io"
+    - "GITHUB_USERNAME"
+
+footer:
+  show: true # Show footer
+  # Default will show "github" and "mail" icons. The extra icons will be shown between them.
+  icons: # supported icon: gitlab, stackoverflow, reddit, linkedin, facebook, instagram, twitter, youtube, pinterest, wordpress, discord
+    - "stackoverflow"
+    - "reddit"
+    - "linkedin"
+  href: # The links order should be the same as the icons
+    - "#"
+    - "#"
+    - "#"

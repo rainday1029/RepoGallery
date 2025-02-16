@@ -1,0 +1,21 @@
+.header-section {
+  position: relative;
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  font-size: var(--font-size-l);
+  font-weight: var(--font-bold);
+  z-index: 9999;
+}
+.header-section button {
+  background-color: transparent;
+  font-size: var(--font-size-l);
+  font-weight: var(--font-semibold);
+}
+.header-section a {
+  margin: 0 20px;
+}
+
+.menu-toggle,
+.theme-toggle {
+  background-color: transparent;
+}

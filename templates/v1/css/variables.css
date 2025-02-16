@@ -1,0 +1,56 @@
+/* ================================
+   variables.css
+   ================================ */
+
+:root {
+  --primary-color: #0d1117;
+  --secondary-color: #3d444d;
+  --accent-color: #0969da;
+  --bg-color: #f0f6fc;
+  --bg-light: #f5f8fa;
+  --color: #0d1117;
+  --color-reverse: #f0f6fc;
+  --menu-color: #f0f6fce1;
+  --tag-color: #e8ecf2;
+  --button-color: #238636;
+
+  --color-white: #f0f6fc;
+  --color-black: #0d1117;
+  --color-light: #f5f8fa;
+  --color-dark: #151b23;
+  --color-gray: #576270;
+
+  --border-radius: 10px;
+  --font-family: "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extra-bold: 800;
+  --font-size: 16px;
+  --font-size-xs: 12px;
+  --font-size-s: 14px;
+  --font-size-m: 18px;
+  --font-size-l: 24px;
+  --font-size-xl: 40px;
+  --line-height: 29px;
+  --spacing-s: 8px;
+  --spacing-m: 16px;
+  --spacing-l: 34px;
+  --spacing-xl: 96px;
+}
+
+[data-bs-theme="dark"] {
+  --primary-color: #f0f6fc;
+  --secondary-color: #d1d9e0;
+  --accent-color: #1f6feb;
+  --bg-color: #0d1117;
+  --bg-light: #151b23;
+  --color: #f0f6fc;
+  --color-reverse: #0d1117;
+  --menu-color: #0d1117e1;
+  --tag-color: #151b23;
+  --button-color: #197935;
+}

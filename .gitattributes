@@ -1,0 +1,3 @@
+config.yaml merge=ours
+index.html merge=ours
+* merge=theirs

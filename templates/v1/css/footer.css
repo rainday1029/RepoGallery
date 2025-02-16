@@ -1,0 +1,78 @@
+/* -----------------------------------
+    Footer Section
+--------------------------------------*/
+/*-- Footer Top --*/
+.footer-top {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  padding: 40px 0;
+  border-bottom: 0.5px solid var(--secondary-color);
+}
+
+.footer-top a:hover {
+  color: var(--secondary-color);
+  cursor: pointer;
+  stroke-width: 5;
+  transform: rotate(15deg);
+}
+.footer-top a ion-icon {
+  font-size: 22px;
+  line-height: 24px;
+  display: block;
+}
+
+/*-- Footer Bottom --*/
+.footer-bottom {
+  background-color: var(--color-black);
+  padding: 15px 0;
+}
+.footer-bottom .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copyright p {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-light);
+  line-height: 30px;
+  margin: 5px 0;
+}
+.footer-copyright p a {
+  color: inherit;
+}
+.footer-copyright .auto-gen {
+  text-transform: none;
+}
+
+.footer-contact {
+  text-align: right;
+}
+.footer-contact p {
+  color: var(--color-light);
+  font-size: 13px;
+  letter-spacing: 1px;
+  line-height: 30px;
+  margin: 5px 0;
+}
+.footer-contact p:last-child::before {
+  background-color: var(--color-gray);
+  content: "";
+  display: block;
+  float: left;
+  height: 1px;
+  margin-left: 14px;
+  margin-right: 19px;
+  margin-top: 15px;
+  width: 25px;
+}
+.footer-contact p span {
+  color: var(--color-gray);
+  text-transform: uppercase;
+}
+.footer-contact p a {
+  color: var(--color-light);
+}
