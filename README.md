@@ -30,21 +30,21 @@ Make sure your repository is set up correctly:
 #### **A. Configure GitHub Pages**
 1. Go to your forked repository
 2. Go to **Settings > Pages**
-   - Under `Build and deployment`: ✅ Set **Source** to **GitHub Actions**
+   - `Build and deployment`: ✅ Set **Source** to **GitHub Actions**
 
 #### **B. Enable GitHub Actions**
 1. Go to **Settings > Actions > General**
-   - Under `Actions permissions`: ✅ **Allow all actions and reusable workflows**
-   - Under `Workflow permissions`: ✅ **Read and write permissions**
-   - Under `Artifact and log retention` (Optional): Set **Artifact and log retention** to **1 days**
+   - `Actions permissions`: ✅ **Allow all actions and reusable workflows**
+   - `Workflow permissions`: ✅ **Read and write permissions**
+   - `Artifact and log retention` (Optional): Set **Artifact and log retention** to **1 days**
    - **Save the settings**
 2. Navigate to the **Actions** tab
    1. You will see the **Workflows** are disabled in default
-      <p align="left"><img width="50%" style="padding: 10px;" src="assets/workflows_enable.png" alt=""/></p>
+      <p align="left"><img width="100%" style="padding: 10px;" src="assets/workflows_enable.png" alt=""/></p>
    2. Click the **I understand my workflows, go ahead and enable them** button
    3. Select the **RepoGallery** workflow from the left sidebar
    4. You will see the **Scheduled workflows are disabled by default in forks** warning message
-      <p align="left"><img width="50%" style="padding: 10px;" src="assets/repogallery_action_enable.png" alt=""/></p>
+      <p align="left"><img width="100%" style="padding: 10px;" src="assets/repogallery_action_enable.png" alt=""/></p>
    5. Click the **Enable workflow** button
 
 ### Step 3. **Manual GitHub Action Trigger (Optional but Recommended)**
