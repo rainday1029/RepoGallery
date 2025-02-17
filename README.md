@@ -5,86 +5,122 @@
    <p align="center">A beautiful showcase for all your GitHub repos. :art:</p>
 </p>
 
-<p align="center"> <a href="https://anlit75.github.io/RepoGallery">View Live Demo</a></p>
+<p align="center"> <a href="https://anlit75.github.io/RepoGallery">View Live Demo </a> | <a href="https://anson-cheng.github.io/RepoGallery-demo-dark"> And More</a></p>
+
+## :gear: Prerequisites
+
+Before you start, make sure you have a **GitHub account**.
 
 ## :rocket: Quick Start
 
 ### Step 1. **Fork This Repository**
 
-Click the **Fork** button to create your own copy of this repository.
+Click the **Fork** button at the top right of this page to create your own copy of the repository.
 
 > [!TIP]\
-> We recommend keeping the original repository name (`RepoGallery`).
+> It’s recommended to keep the repository name as `RepoGallery`.
 
 ### Step 2. **GitHub Settings**
 
 > [!IMPORTANT]\
-> These settings can only be configured on GitHub Web/Desktop.
+> These settings **must be configured** via the GitHub Web/Desktop interface.
 
-Make sure your repository is set up with the following configurations:
+Make sure your repository is set up correctly:
 
-- **Settings > Actions > General**
-  - :white_check_mark: **Actions permissions**: Allow all actions and reusable workflows
-  - :white_check_mark: **Workflow permissions**: Read and write permissions
-- **Settings > Pages**
-  - :white_check_mark: **Build and deployment** source: **GitHub Actions**
+#### **A. Configure GitHub Pages**
+1. Go to your forked repository
+2. Go to **Settings > Pages**
+   - Under `Build and deployment`: ✅ Set **Source** to **GitHub Actions**
 
-### Step 3. **Personalization (Optional)**
+#### **B. Enable GitHub Actions**
+1. Go to **Settings > Actions > General**
+   - Under `Actions permissions`: ✅ **Allow all actions and reusable workflows**
+   - Under `Workflow permissions`: ✅ **Read and write permissions**
+   - Under `Artifact and log retention` (Optional): Set **Artifact and log retention** to **1 days**
+   - **Save the settings**
+2. Navigate to the **Actions** tab
+   1. You will see the **Workflows** are disabled in default
+      <p align="left"><img width="50%" style="padding: 10px;" src="assets/workflows_enable.png" alt=""/></p>
+   2. Click the **I understand my workflows, go ahead and enable them** button
+   3. Select the **RepoGallery** workflow from the left sidebar
+   4. You will see the **Scheduled workflows are disabled by default in forks** warning message
+      <p align="left"><img width="50%" style="padding: 10px;" src="assets/repogallery_action_enable.png" alt=""/></p>
+   5. Click the **Enable workflow** button
 
-:art: Customize your showcase page by editing the `config.yaml` file (e.g., site title, theme, etc.).
+### Step 3. **Manual GitHub Action Trigger (Optional but Recommended)**
 
-### Step 4. **Manual GitHub Action Trigger (Optional)**
+> [!TIP]\
+> If you want to customize your showcase, skip this step and go to Step 4.
 
-If you'd like to see your page immediately:
+To ensure GitHub Actions is working properly, manually trigger the workflow:
 
-- Navigate to the **Actions** tab, select the **RepoGallery** workflow from the left sidebar
-- Click the **Run workflow** button
+1. Go to the **Actions** tab
+2. Select the **RepoGallery** workflow on the left sidebar
+3. Click the **Run workflow** button
 
 > [!NOTE]\
-> You can wait for the scheduled run (default is at 00:00 UTC :clock12: every day).
+> The workflow will also run automatically **every day at UTC 00:00** 🕛.\
+> **Any `push` to the `main` branch will also trigger the workflow**.\
+> **If the workflow fails**, check the **workflow runs** for error logs.
+
+### Step 4. **Personalization (Optional)**
+
+:art: Customize your showcase by editing the `config.yaml`. You can:
+- Change the website title
+- Adjust the theme colors
+- and more!
+
+After editing, **commit and push** your changes. This will automatically trigger GitHub Actions to regenerate and deploy your page.
+
+> [!TIP]\
+> If you **didn’t** manually trigger Step 3, this `push` **will trigger the workflow automatically**.
 
 ### Step 5. **View Your Awesome RepoGallery Page**
 
-- Once GitHub Pages is deployed (this may take a few minutes), your page will be available at: <br>
-  `https://<your-github-username>.github.io/RepoGallery`
+Once GitHub Actions has successfully run and GitHub Pages is deployed (this may take a few minutes), your showcase will be available at:
+
+📌 `https://<your-github-username>.github.io/RepoGallery`
 
 > [!TIP]\
-> You can also find the URL by clicking **Use your GitHub Pages website** in your repository's **About** settings.
+> You can also find the URL in your repository’s **About** settings by clicking **Use your GitHub Pages website**.
 
-## How to Sync with Upstream
+## 🔄 How to Sync with Upstream
 
-If you've wanted to keep your forked repository up-to-date with the upstream, you can follow these steps:
+If you want to keep your forked repository updated with the latest changes from the RepoGallery, follow these steps:
 
-### You DID NOT make any changes to the `config.yaml` or don't mind losing them
-
+### **A. If you DID NOT modify `config.yaml` or don’t mind losing your changes**
 1. Go to your forked repository
-2. Click the **Sync fork** button
+2. Click **Sync fork**
 3. Click **Discard n commits**
-4. That's it!
+4. Done!
 
 > [!WARNING]\
-> If you want to keep your changes, **DO NOT** click the **Discard n commits** button!
-> This will reset your forked repository to the state of the upstream repository.
+> If you want to keep your changes, **DO NOT** click **Discard n commits**.\
+> This will reset your fork to match the original repository.
 
-### You DID make changes to the `config.yaml` and want to keep them
-
-1. Use the following commands in your terminal:
-
-   ```bash
-   #!/bin/bash
-   chmod +x sync.sh
-   ./sync.sh
-   ```
-
-2. That's it!
+### **B. If you DID modify `config.yaml` and want to keep your changes**
+Run the following commands in your terminal:
+```bash
+#!/bin/bash
+cd RepoGallery
+chmod +x sync.sh
+./sync.sh
+```
 
 ## 🛠 How It Works (For the Curious)
 
-- GitHub Action (`repo_gallery.yaml`) will automatically runs `generate_html.py`, which reads `config.yaml` and the `templates/` to generate the latest `index.html` and update your GitHub Pages.
-- For more details on the implementation, please check out:
-  - The `script/` folder
-  - The contents of the `templates/` folder
+When GitHub Actions (`repo_gallery.yaml`) runs, it automatically executes `generate_html.py`, which:
+
+1. Reads `config.yaml`
+2. Uses the templates from the `templates/` folder to generate a new `index.html`
+
+Then GitHub Actions will deploy the latest changes to GitHub Pages.
+
+### Want to learn more?
+Check out:
+- The scripts inside the `script/` folder
+- The templates inside the `templates/` folder
 
 ## 📄 License
 
-This project is licensed under the [Apache License 2.0](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE)
