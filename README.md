@@ -23,7 +23,7 @@ Click the **Fork** button at the top right of this page to create your own copy 
 ### Step 2. **GitHub Settings**
 
 > [!IMPORTANT]\
-> These settings **must be configured** via the GitHub Web/Desktop interface.
+> These settings **must be configured** via the GitHub Website (GitHub Mobile doesn't support these settings).
 
 Make sure your repository is set up correctly:
 
