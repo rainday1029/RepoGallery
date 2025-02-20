@@ -268,3 +268,19 @@
 .category-tags::-webkit-scrollbar {
   height: 5px;
 }
+
+.project-image-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 300px;
+  background-color: var(--bg-light);
+  font-size: var(--font-size-l);
+  font-weight: var(--font-bold);
+  color: var(--primary-color);
+  border: 0.5px solid var(--bg-light);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

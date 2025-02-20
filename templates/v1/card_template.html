@@ -12,7 +12,11 @@
   <!-- Image -->
   <div class="img-wrap">
     <a href="{{ repo.repo_url }}">
+      {% if image_data.image %}
       <img src="{{ image_data.image }}" alt="" />
+      {% else %}
+      <div class="project-image-fallback">{{ repo.name }}</div>
+      {% endif %}
       <!-- Repo State -->
       <div class="hover-content">
         <div class="state">
@@ -23,7 +27,7 @@
         </div>
       </div>
     </a>
-    {% if random_image_enabled %}
+    {% if image_data.display_url %}
     <!-- Image Credit -->
     <div class="image-credit">
       <a href="{{ image_data.display_url }}">@{{ image_data.author }}</a>

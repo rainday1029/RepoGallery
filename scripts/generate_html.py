@@ -34,7 +34,11 @@ class HTMLGenerator:
     def __init__(self) -> None:
         self._github_username: str = os.getenv('GITHUB_USERNAME', '')
         self._config: Dict[str, Any] = self._load_yaml('config.yaml')
+        self._custom_images: Dict[str, str] = {}
         self._output_path: str = 'index.html'
+
+        if self._config.get('repos', {}).get('use_custom_image', False):
+            self._custom_images = self._load_yaml('assets/custom_image.yaml')
 
         version = self._config.get('site', {}).get('version', 'default')
         template_path = f"./templates/{version}"
@@ -83,28 +87,13 @@ class HTMLGenerator:
             'authors': authors
         }
 
-    def _get_random_image_data(self, cycles: Dict[str, Any]) -> Dict[str, str]:
-        return {
-            "image": next(cycles["image"]),
-            "display_url": next(cycles["display_url"]),
-            "author": next(cycles["author"])
-        }
-
-    def _use_repo_image(self, repo: Dict[str, Any]) -> Dict[str, str]:
-        return {
-            "image": repo.get('image', ''),
-            "display_url": '',
-            "author": ''
-        }
-
-    def _render_cards(self, repos: List[Dict[str, Any]]) -> str:
-        random_image_enabled = self._config.get('repos', {}).get('random_image', True)
+    def set_random_image_cycles(self) -> None:
         theme = self._config.get('repos', {}).get('random_image_theme', 'Minimal')
 
-        images_data = self._get_random_images(theme) if random_image_enabled else None
-        cycles = None
-        if images_data is not None:
-            cycles = {
+        images_data = self._get_random_images(theme)
+        self.random_image_cycles = None
+        if images_data['urls'].__len__() > 0:
+            self.random_image_cycles = {
                 "image": itertools.cycle(images_data['urls']),
                 "display_url": itertools.cycle(images_data['display_urls']),
                 "author": itertools.cycle(images_data['authors'])
@@ -112,12 +101,41 @@ class HTMLGenerator:
         else:
             logger.info('Random images disabled, using repo images')
 
+    def _use_repo_image(self, repo: Dict[str, Any]) -> str:
+        return repo.get('image', '')
+
+    def _use_custom_image(self, repo: Dict[str, Any]) -> str:
+        project_name = repo.get('name', '')
+        return self._custom_images.get(project_name, '')
+
+    def _use_random_image(self) -> Dict[str, str]:
+        return {
+            "image": next(self.random_image_cycles["image"]),
+            "display_url": next(self.random_image_cycles["display_url"]),
+            "author": next(self.random_image_cycles["author"])
+        }
+
+    def _select_image_for_repo(self, repo: Dict[str, Any]) -> Dict[str, str]:
+        image_data = ''
+        if self._config.get('repos', {}).get('use_custom_image', False):
+            image_data = self._use_custom_image(repo)
+
+        if not image_data:
+            if self._config.get('repos', {}).get('random_image', True):
+                return self._use_random_image()
+            # else:
+            #     image_data = self._use_repo_image(repo)
+        return {"image": image_data, "display_url": '', "author": ''}
+
+    def _render_cards(self, repos: List[Dict[str, Any]]) -> str:
+        if self._config.get('repos', {}).get('random_image', True):
+            self.set_random_image_cycles()
+
         return ''.join(
             self._card_template.render(
                 repo=repo,
                 url=repo.get('homepage') or repo.get('page_url', ''),
-                random_image_enabled=random_image_enabled,
-                image_data=self._use_repo_image(repo) if cycles is None else self._get_random_image_data(cycles)
+                image_data=self._select_image_for_repo(repo)
             ) for repo in repos
         )
 
