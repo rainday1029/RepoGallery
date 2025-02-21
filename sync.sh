@@ -1,39 +1,47 @@
 #!/bin/bash
-# sync.sh: Sync with upstream, keep config.yaml and index.html, use upstream for other files
+set -euo pipefail
 
-BRANCH="main"  # If the main branch is master, change this to "master"
-UPSTREAM_REMOTE="upstream"
-UPSTREAM_BRANCH="main"
+BRANCH="${BRANCH:-main}"
+UPSTREAM_REMOTE="${UPSTREAM_REMOTE:-upstream}"
+UPSTREAM_BRANCH="${UPSTREAM_BRANCH:-main}"
+UPSTREAM_URL="${UPSTREAM_URL:-https://github.com/anlit75/RepoGallery.git}"
 
 # Ensure the upstream remote exists
-if ! git remote get-url $UPSTREAM_REMOTE > /dev/null 2>&1; then
-    git remote add upstream https://github.com/anlit75/RepoGallery.git
+if ! git remote get-url "$UPSTREAM_REMOTE" > /dev/null 2>&1; then
+    git remote add "$UPSTREAM_REMOTE" "$UPSTREAM_URL"
 fi
 
 # Switch to the main branch
 echo "Switching to $BRANCH branch..."
-git checkout $BRANCH
+git checkout "$BRANCH"
 
-# Fetch updates from $UPSTREAM_REMOTE
+# Ensure the working directory is clean
+if [ -n "$(git status --porcelain)" ]; then
+    echo "The working directory has uncommitted changes. Please commit or stash them before running this script."
+    exit 1
+fi
+
+# Fetch the latest updates from upstream
 echo "Fetching updates from $UPSTREAM_REMOTE..."
-git fetch $UPSTREAM_REMOTE
+git fetch "$UPSTREAM_REMOTE"
 
-# Merge with upstream
-echo "Merging $UPSTREAM_REMOTE/$UPSTREAM_BRANCH..."
-git merge $UPSTREAM_REMOTE/$UPSTREAM_BRANCH
+# Rebase to get the changes from upstream
+echo "Rebasing onto $UPSTREAM_REMOTE/$UPSTREAM_BRANCH..."
+if ! git rebase "$UPSTREAM_REMOTE/$UPSTREAM_BRANCH"; then
+    echo "Conflict detected, resolving..."
 
-# Keep local config.yaml and index.html
-echo "Keeping local config.yaml and index.html..."
-git checkout --ours config.yaml index.html
-git add config.yaml index.html
+    # Keep local changes for config.yaml, use upstream version for other files
+    git checkout --ours config.yaml
+    git add config.yaml
+    git checkout --theirs .
+    git add .
 
-# Use upstream version for other files
-echo "Using upstream version for other files..."
-git checkout --theirs .
-git add .
+    # Continue rebase
+    git rebase --continue
+fi
 
-# Complete the merge
-git commit -m "Merged with upstream, keeping local config.yaml and index.html"
-git push origin $BRANCH
+# Push changes to origin
+echo "Pushing changes to origin..."
+git push --force-with-lease origin "$BRANCH"
 
-echo "Merge complete!"
+echo "Rebase complete!"

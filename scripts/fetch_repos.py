@@ -136,7 +136,11 @@ class RepositoryService:
         if not config['repos'].get('show_forks', False):
             repos = [r for r in repos if not r.get('is_fork', False)]
         excluded = [repo.replace('GITHUB_USERNAME', self._username) for repo in config['repos'].get('exclude', [])]
-        return [r for r in repos if r.get('name', '') not in excluded]
+        exclude_patterns = config['repos'].get('exclude_patterns', [])
+        return [
+            repo for repo in repos
+            if not any(re.match(pattern, repo.get('name', '')) for pattern in exclude_patterns) and repo.get('name', '') not in excluded
+        ]
 
     def _sort_repos(self, repos: List[Dict[str, Any]], sort_key: str, reverse: bool) -> List[Dict[str, Any]]:
         return sorted(repos, key=lambda r: (r.get(sort_key) is not None, r.get(sort_key)), reverse=reverse)

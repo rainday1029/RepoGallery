@@ -71,16 +71,6 @@
    <img width="100%" style="padding: 10px;" src="../assets/doc_img/actions_permissions.png" alt=""/>
 </details>
 
-<details>
-<summary>✅ 將 <code>Workflow permissions</code> 設為 <strong>Read and write permissions</strong></summary>
-   <img width="100%" style="padding: 10px;" src="../assets/doc_img/workflow_permissions.png" alt=""/>
-</details>
-
-<details>
-<summary>可選：將 <code>Artifact and log retention</code> 設為 <strong>1 days</strong></summary>
-   <img width="100%" style="padding: 10px;" src="../assets/doc_img/artifact_and_log_retention.png" alt=""/>
-</details>
-
 #### **C. 啟用 Workflows**
 前往 **Actions** <img src="../assets/doc_img/actions.png" style="height: 20px !important;width: 20px !important;" > 分頁
  1. 你會看到默認情況下 **Workflows** 處於停用狀態
@@ -162,7 +152,7 @@ chmod +x sync.sh
 當 GitHub Actions（`repo_gallery.yaml`）執行時，它會自動執行 `generate_html.py`，並且：
 
 1. 讀取 `config.yaml`
-2. 使用 `templates/` 資料夾中的模板生成新的 `index.html`
+2. 使用 `templates/` 資料夾中的模板生成新的 html 檔案
 
 接著 GitHub Actions 會將最新內容部署到 GitHub Pages。
 

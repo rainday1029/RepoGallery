@@ -11,6 +11,7 @@
 #                    Ignored if show_picture is false.
 #    - theme: Main theme of the site, option: "light" / "dark"
 #    - site_icon: Site icon path
+#
 # 2. Repos
 #    - limit: Limit the number of repos to display, 0 is unlimited
 #    - show_forks: Show fork repos
@@ -23,6 +24,9 @@
 #    - random_image_theme: Random image theme, option: "Minimal" / "Cyberpunk"
 #    - exclude: The repos you want to exclude.
 #               Default exclude Personal GitHub Page, GitHub Profile.
+#    - exclude_patterns: Exclude repos by regex patterns.
+#                        For example, "^test-.*" will exclude all repos start with "test-".
+#
 # 3. Footer
 #    - show: Show footer or not
 #    - icons: Extra icons in the footer.
@@ -52,6 +56,8 @@ repos:
   exclude:
     - "GITHUB_USERNAME.github.io"
     - "GITHUB_USERNAME"
+  exclude_patterns:
+    - "^test-.*"
 
 footer:
   show: true

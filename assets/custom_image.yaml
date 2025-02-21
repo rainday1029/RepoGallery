@@ -12,6 +12,6 @@
 # Note: If you want to use this feature, you need to set use_custom_image to true in config.yaml.
 #       You can only use the custom image for a specific project, otherwise,
 #       if the random_image is set to true, the random image will be shown,
-#       if the random_image is set to false, the first image in the repo README will be shown.
+#       if the random_image is set to false, the text card will be shown.
 
 RepoGallery: assets/doc_img/RepoGallery-light.png

@@ -67,16 +67,6 @@ Make sure your repository is set up correctly:
    <img width="100%" style="padding: 10px;" src="assets/doc_img/actions_permissions.png" alt=""/>
 </details>
 
-<details>
-<summary>✅ Set <code>Workflow permissions</code> to <strong>Read and write permissions</strong></summary>
-   <img width="100%" style="padding: 10px;" src="assets/doc_img/workflow_permissions.png" alt=""/>
-</details>
-
-<details>
-<summary>Set <code>Artifact and log retention</code> to <strong>1 days</strong> (Optional)</summary>
-   <img width="100%" style="padding: 10px;" src="assets/doc_img/artifact_and_log_retention.png" alt=""/>
-</details>
-
 #### **C. Enable Workflows**
 Navigate to the **Actions** <img src="assets/doc_img/actions.png" style="height: 20px !important;width: 20px !important;" > tab
  1. You will see the **Workflows** are disabled in default
@@ -158,7 +148,7 @@ chmod +x sync.sh
 When GitHub Actions (`repo_gallery.yaml`) runs, it automatically executes `generate_html.py`, which:
 
 1. Reads `config.yaml`
-2. Uses the templates from the `templates/` folder to generate a new `index.html`
+2. Uses the templates from the `templates/` folder to generate a new html file
 
 Then GitHub Actions will deploy the latest changes to GitHub Pages.
 
