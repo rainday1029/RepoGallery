@@ -72,7 +72,18 @@
   var cardGrid = $(".card-grid");
   var cardGridMasonry = $(".card-grid-masonry");
   var cardGridItem = ".card-item";
+  
+  var VIEW_KEY = "repogallery-view";
 
+  function readStoredView() {
+    try {
+      return localStorage.getItem(VIEW_KEY) === "list" ? "list" : "grid";
+    } catch (e) {
+      // Storage throws in private mode or with cookies blocked.
+      return "grid";
+    }
+  }
+	
   $("#toggle-filter-search").on("click", function () {
     $("#card-filter-text").toggle().focus();
   });
@@ -133,6 +144,32 @@
       },
     });
 
+    // View toggle. Set up here because it needs an initialised Isotope
+    // instance to re-layout after the item widths change.
+    var viewToggle = $("#toggle-view");
+
+    function applyView(view) {
+      cardGrid.toggleClass("list-view", view === "list");
+      viewToggle.html(
+        view === "list"
+          ? '<ion-icon name="grid"></ion-icon>'
+          : '<ion-icon name="list"></ion-icon>'
+      );
+      cardGrid.isotope("layout");
+    }
+
+    applyView(readStoredView());
+
+    viewToggle.on("click", function () {
+      var view = cardGrid.hasClass("list-view") ? "grid" : "list";
+      applyView(view);
+      try {
+        localStorage.setItem(VIEW_KEY, view);
+      } catch (e) {
+        // Ignore write failures; the toggle still works for this page view.
+      }
+    });
+
     function applyFilter(filterValue) {
       if (filterValue === "*") {
         cardGrid.isotope({ filter: "*" });
@@ -150,6 +187,7 @@
     cardFilter.on("click", "button", function () {
       if ($(this).is("#toggle-filter-search")) return;
       if ($(this).is("#card-sort")) return;
+	  if ($(this).is("#toggle-view")) return;
       cardFilter.find("button").removeClass("active");
       $(this).addClass("active");
       applyFilter($(this).attr("data-filter"));
