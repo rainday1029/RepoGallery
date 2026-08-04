@@ -1,0 +1,537 @@
+<!--
+  Copyright 2025 Ting-An Cheng
+   ____                        ____         _  _
+  |  _ \   ___  _ __    ___   / ___|  __ _ | || |  ___  _ __  _   _
+  | |_) | / _ \| '_ \  / _ \ | |  _  / _` || || | / _ \| '__|| | | |
+  |  _ < |  __/| |_) || (_) || |_| || (_| || || ||  __/| |   | |_| |
+  |_| \_\ \___|| .__/  \___/  \____| \__,_||_||_| \___||_|    \__, |
+               |_|                                            |___/
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>RepoGallery</title>
+    <meta name="author" content="Ting-An Cheng" />
+    <meta name="keywords" content="RepoGallery" />
+    <meta name="description" content="This is a collection of my awesome GitHub projects." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/doc_img/RepoGallery-light.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="templates/v1/css/style.css" />
+  </head>
+
+  <body>
+    <!--Header Section-->
+    <header class="header-section">
+      <div class="container">
+        <a href="index.html" class="float-left">RepoGallery</a>
+        <div class="float-right">
+          <button class="theme-toggle" id="theme-toggle">
+            
+            <ion-icon name="moon"></ion-icon>
+            
+          </button>
+          <button class="menu-toggle">
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!--Menu Section-->
+    <div class="menu-section">
+      <div class="container">
+        <nav class="menu">
+          <ul>
+            <li class="active"><a href="index.html">home</a></li>
+            <li><a href="mailto:None">contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!--Hero Section-->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row">
+          
+          <div class="hero-image col-sm-6 col-xs-12">
+            <img src="https://avatars.githubusercontent.com/u/129485392?v=4" alt="" />
+          </div>
+          
+          <div class="hero-content col-sm-6 col-xs-12">
+            <h1>Hi, I'm rainday1029</h1>
+            <h4>This is a collection of my awesome GitHub projects.</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Project Section-->
+    <section class="project-section">
+      <div class="container">
+        <div class="card-filter-bar">
+          <button class="active" data-filter="*">All</button>
+          
+          <button data-filter="Python">Python</button>
+          
+          <button data-filter="Jupyter Notebook">Jupyter Notebook</button>
+          
+          <div class="btn-group" id="sort-dropdown">
+            <button type="button" id="card-sort" data-bs-toggle="dropdown" aria-expanded="false">
+              <ion-icon name="swap-vertical"></ion-icon>
+            </button>
+            <ul class="dropdown-menu">
+               
+              <li>
+                <a class="dropdown-item " href="#" data-sort="name">Name</a>
+              </li>
+              
+              <li>
+                <a class="dropdown-item active" href="#" data-sort="stars">Stars</a>
+              </li>
+              
+              <li>
+                <a class="dropdown-item " href="#" data-sort="forks">Forks</a>
+              </li>
+              
+              <li>
+                <a class="dropdown-item " href="#" data-sort="pushed_at">Pushed at</a>
+              </li>
+              
+              <li>
+                <a class="dropdown-item " href="#" data-sort="updated_at">Updated at</a>
+              </li>
+              
+              <li>
+                <a class="dropdown-item " href="#" data-sort="created_at">Created at</a>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="form-inline">
+            <button type="button" id="toggle-filter-search">
+              <ion-icon name="search"></ion-icon>
+            </button>
+            <input type="text" class="form-control" id="card-filter-text" placeholder="Search Projects or Tags"/>
+          </div>
+        </div>
+        <div id="search-not-found">No results found</div>
+
+        <div class="card-grid card-grid-masonry row">
+          <!-- Projects Card Start -->
+          <!-- Alzheimer-Disease-Classification-Model start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category=" Jupyter Notebook"
+  data-stars="0"
+  data-forks="0"
+  data-prs="0"
+  data-pushed-at="2026-08-04 02:38:29"
+  data-updated-at="2026-08-04 02:39:28"
+  data-created-at="2024-02-24 07:36:53"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="https://github.com/rainday1029/Alzheimer-Disease-Classification-Model">
+      
+      <img src="https://images.unsplash.com/photo-1579187707643-35646d22b596?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+      
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>0</span></i>
+          <i class="state-item ion-fork-repo"><span>0</span></i>
+          <i class="state-item ion-pull-request"><span>0</span></i>
+          <!-- <img src="https://img.shields.io/github/license/rainday1029/Alzheimer-Disease-Classification-Model?style=social" /> -->
+        </div>
+      </div>
+    </a>
+    
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="https://unsplash.com/photos/a-group-of-metal-leaves-sitting-on-top-of-a-white-surface-uuCjYxJVf4o">@Evie S.</a>
+    </div>
+    
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="https://github.com/rainday1029/Alzheimer-Disease-Classification-Model" class="title-a"><h3 class="title">Alzheimer-Disease-Classification-Model</h3></a>
+    <span class="desc">A CNN that classifies brain MRI scans into four Alzheimer's severity stages, with SHAP image explanations highlighting the regions behind each prediction.</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        
+        <a href="#" class="category-tag" data-filter="Jupyter Notebook">Jupyter Notebook</a>
+         
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- Alzheimer-Disease-Classification-Model end --><!-- lrc2srt start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category=" Python"
+  data-stars="0"
+  data-forks="0"
+  data-prs="0"
+  data-pushed-at="2026-08-04 02:03:43"
+  data-updated-at="2026-08-04 02:14:30"
+  data-created-at="2024-11-30 15:03:24"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="https://github.com/rainday1029/lrc2srt">
+      
+      <img src="https://images.unsplash.com/photo-1515923152115-758a6b16f35e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+      
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>0</span></i>
+          <i class="state-item ion-fork-repo"><span>0</span></i>
+          <i class="state-item ion-pull-request"><span>0</span></i>
+          <!-- <img src="https://img.shields.io/github/license/rainday1029/lrc2srt?style=social" /> -->
+        </div>
+      </div>
+    </a>
+    
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="https://unsplash.com/photos/three-gray-kingfisher-birds-_oNISBwMTwo">@Glen Carrie</a>
+    </div>
+    
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="https://github.com/rainday1029/lrc2srt" class="title-a"><h3 class="title">lrc2srt</h3></a>
+    <span class="desc">A simple Python tool to batch-convert .lrc lyric files into .srt subtitle files.</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        
+        <a href="#" class="category-tag" data-filter="Python">Python</a>
+         
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- lrc2srt end --><!-- MIP_Project1 start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category=" Python"
+  data-stars="0"
+  data-forks="0"
+  data-prs="0"
+  data-pushed-at="2026-08-04 02:53:31"
+  data-updated-at="2026-08-04 02:53:46"
+  data-created-at="2023-03-31 09:10:41"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="https://github.com/rainday1029/MIP_Project1">
+      
+      <img src="https://images.unsplash.com/photo-1528401635478-821b5f89ff94?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+      
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>0</span></i>
+          <i class="state-item ion-fork-repo"><span>0</span></i>
+          <i class="state-item ion-pull-request"><span>0</span></i>
+          <!-- <img src="https://img.shields.io/github/license/rainday1029/MIP_Project1?style=social" /> -->
+        </div>
+      </div>
+    </a>
+    
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="https://unsplash.com/photos/QW6RVrkdQEY">@Nadia Valko</a>
+    </div>
+    
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="https://github.com/rainday1029/MIP_Project1" class="title-a"><h3 class="title">MIP_Project1</h3></a>
+    <span class="desc">COVID-19 vs non-COVID classification from chest CT slices — PyTorch MNASNet with patient-level splitting, ROC/confusion-matrix evaluation, and SHAP image explanations.</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        
+        <a href="#" class="category-tag" data-filter="Python">Python</a>
+         
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- MIP_Project1 end --><!-- MIP_Project2 start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category=" Python"
+  data-stars="0"
+  data-forks="0"
+  data-prs="0"
+  data-pushed-at="2026-08-04 02:58:24"
+  data-updated-at="2026-08-04 02:58:38"
+  data-created-at="2023-04-18 09:39:02"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="https://github.com/rainday1029/MIP_Project2">
+      
+      <img src="https://images.unsplash.com/photo-1524135220673-c731600a1a50?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+      
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>0</span></i>
+          <i class="state-item ion-fork-repo"><span>0</span></i>
+          <i class="state-item ion-pull-request"><span>0</span></i>
+          <!-- <img src="https://img.shields.io/github/license/rainday1029/MIP_Project2?style=social" /> -->
+        </div>
+      </div>
+    </a>
+    
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="https://unsplash.com/photos/VLGWE_SumrA">@Alexander Andrews</a>
+    </div>
+    
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="https://github.com/rainday1029/MIP_Project2" class="title-a"><h3 class="title">MIP_Project2</h3></a>
+    <span class="desc">U-Net segmentation of the optic disc in Drishti-GS retinal fundus images — PyTorch, multi-class masks, combined cross-entropy + Dice loss, evaluated by Dice coefficient.</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        
+        <a href="#" class="category-tag" data-filter="Python">Python</a>
+         
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- MIP_Project2 end --><!-- MIP_Project3 start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category=" Jupyter Notebook"
+  data-stars="0"
+  data-forks="0"
+  data-prs="0"
+  data-pushed-at="2026-08-04 03:04:52"
+  data-updated-at="2026-08-04 03:05:07"
+  data-created-at="2024-01-26 06:04:39"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="https://github.com/rainday1029/MIP_Project3">
+      
+      <img src="https://images.unsplash.com/photo-1504198266287-1659872e6590?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+      
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>0</span></i>
+          <i class="state-item ion-fork-repo"><span>0</span></i>
+          <i class="state-item ion-pull-request"><span>0</span></i>
+          <!-- <img src="https://img.shields.io/github/license/rainday1029/MIP_Project3?style=social" /> -->
+        </div>
+      </div>
+    </a>
+    
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="https://unsplash.com/photos/green-leaf-photography-9Z1KRIfpBTM">@Sarah Dorweiler</a>
+    </div>
+    
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="https://github.com/rainday1029/MIP_Project3" class="title-a"><h3 class="title">MIP_Project3</h3></a>
+    <span class="desc">Predicting 3-month stroke outcome from 18-slice brain MRI with ResNet, and measuring the DWI→ADC domain gap using MMD and CORAL domain adaptation.</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        
+        <a href="#" class="category-tag" data-filter="Jupyter Notebook">Jupyter Notebook</a>
+         
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- MIP_Project3 end --><!-- Object_Detection_tensorflow-lite start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category=" Python"
+  data-stars="0"
+  data-forks="0"
+  data-prs="0"
+  data-pushed-at="2026-08-04 02:15:55"
+  data-updated-at="2026-08-04 02:15:59"
+  data-created-at="2024-03-04 05:02:32"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="https://github.com/rainday1029/Object_Detection_tensorflow-lite">
+      
+      <img src="https://images.unsplash.com/photo-1449247709967-d4461a6a6103?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+      
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>0</span></i>
+          <i class="state-item ion-fork-repo"><span>0</span></i>
+          <i class="state-item ion-pull-request"><span>0</span></i>
+          <!-- <img src="https://img.shields.io/github/license/rainday1029/Object_Detection_tensorflow-lite?style=social" /> -->
+        </div>
+      </div>
+    </a>
+    
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="https://unsplash.com/photos/white-wooden-table-near-brown-chair-nvzvOPQW0gc">@Bench Accounting</a>
+    </div>
+    
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="https://github.com/rainday1029/Object_Detection_tensorflow-lite" class="title-a"><h3 class="title">Object_Detection_tensorflow-lite</h3></a>
+    <span class="desc">Real-time object detection with TensorFlow Lite on webcam or MP4 — CPU, full TensorFlow, and Coral Edge TPU back ends, with IFTTT webhooks that push LINE and Google Sheets alerts on detection.</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        
+        <a href="#" class="category-tag" data-filter="Python">Python</a>
+         
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- Object_Detection_tensorflow-lite end --><!-- Suvive-Analyze start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category=" Jupyter Notebook"
+  data-stars="0"
+  data-forks="0"
+  data-prs="0"
+  data-pushed-at="2026-08-04 02:22:15"
+  data-updated-at="2026-08-04 02:22:22"
+  data-created-at="2023-04-10 09:37:39"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="https://github.com/rainday1029/Suvive-Analyze">
+      
+      <img src="https://images.unsplash.com/photo-1520529389463-866106188d86?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+      
+      <!-- Repo State -->
+      <div class="hover-content">
+        <div class="state">
+          <i class="state-item ion-android-star-outline"><span>0</span></i>
+          <i class="state-item ion-fork-repo"><span>0</span></i>
+          <i class="state-item ion-pull-request"><span>0</span></i>
+          <!-- <img src="https://img.shields.io/github/license/rainday1029/Suvive-Analyze?style=social" /> -->
+        </div>
+      </div>
+    </a>
+    
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="https://unsplash.com/photos/_NWlZj5d2Ag">@Darran Shen</a>
+    </div>
+    
+  </div>
+
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="https://github.com/rainday1029/Suvive-Analyze" class="title-a"><h3 class="title">Suvive-Analyze</h3></a>
+    <span class="desc">Predicting all-cause mortality in a NHANES metabolic-syndrome cohort (2,796 participants) with nine ML classifiers, compared by AUC, sensitivity and specificity, and explained with SHAP.</span>
+
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        
+        <a href="#" class="category-tag" data-filter="Jupyter Notebook">Jupyter Notebook</a>
+         
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- Suvive-Analyze end -->
+          <!-- Projects Card End -->
+        </div>
+      </div>
+    </section>
+
+    <!--Footer Section-->
+    <footer class="footer-section">
+      
+      <div class="container footer-top">
+        <a href="https://github.com/rainday1029"><ion-icon name="logo-github"></ion-icon></a>
+        
+        <a href="#"><ion-icon name="logo-stackoverflow"></ion-icon></a>
+        
+        <a href="https://www.linkedin.com/in/%E6%94%BF%E9%B4%BB-%E6%9D%8E-8927812a2/"><ion-icon name="logo-reddit"></ion-icon></a>
+        
+        <a href="https://www.linkedin.com/in/%E6%94%BF%E9%B4%BB-%E6%9D%8E-8927812a2/"><ion-icon name="logo-linkedin"></ion-icon></a>
+        
+        <a href="mailto:"><ion-icon name="mail"></ion-icon></a>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="container">
+          <div class="footer-copyright">
+            <p>Copyright &copy; 2025 <a href="https://github.com/anlit75">Ting-An Cheng</a></p>
+            <p class="auto-gen">Auto build by <a href="https://github.com/anlit75/RepoGallery">anlit75@RepoGallery</a> on 2026-08-04</p>
+          </div>
+          <div class="footer-contact">
+            <p><span>Email :</span><a href="mailto:611415132@alum.ccu.edu.tw">611415132@alum.ccu.edu.tw</a></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="templates/v1/js/plugins.js"></script>
+    <script src="templates/v1/js/main.js"></script>
+  </body>
+</html>
