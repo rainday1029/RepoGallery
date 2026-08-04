@@ -229,13 +229,14 @@
   background-color: transparent !important;
   opacity: 0 !important;
 }
+/* Clamp to three lines. The original rule set display: -webkit-box without
+   -webkit-line-clamp, so nothing was ever truncated and the scroll container
+   had no height to scroll within. */
 .card-item .content .desc {
-  overflow-y: scroll;
-  text-overflow: ellipsis;
   display: -webkit-box;
-}
-.card-item .content .desc::-webkit-scrollbar {
-  height: 0px;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .img-wrap {
