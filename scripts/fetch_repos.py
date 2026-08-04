@@ -94,7 +94,10 @@ class RepoFetcher:
 
     @staticmethod
     def _format_date(date_str: str) -> str:
-        return datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S') if date_str else ''
+        # Kept in ISO 8601. The space separated form the template used to emit
+        # is not a format Date() is required to parse, and older Safari returns
+        # NaN for it, which collapsed every date sort to zero.
+        return datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%dT%H:%M:%SZ') if date_str else ''
 
     def _fetch_repo_data(self, repo: Dict[str, Any]) -> Dict[str, Any]:
         return {
