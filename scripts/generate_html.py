@@ -181,7 +181,9 @@ class HTMLGenerator:
             # build_time only changes daily and several deploys share a day.
             build_id=datetime.now().strftime('%Y%m%d%H%M%S'),
             theme=self._config.get('site', {}).get('theme', 'light'),
-            site_icon=self._config.get('site', {}).get('site_icon', ''),
+            # Falls back to the profile picture, so the browser tab shows the
+            # account avatar instead of the upstream project logo.
+            site_icon=self._config.get('site', {}).get('site_icon') or user_img,
             username=self._github_username,
             # Prefer the configured address. The API key exists with a null
             # value when the email is not public, so a get() default would
