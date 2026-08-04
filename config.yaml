@@ -39,6 +39,7 @@ site:
   version: "v1"
   title: "Hi, I'm GITHUB_USERNAME"
   description: "This is a collection of my awesome GitHub projects."
+  email: "aashunleo@gmail.com"
   show_picture: true
   picture_path: ""
   theme: "light"
