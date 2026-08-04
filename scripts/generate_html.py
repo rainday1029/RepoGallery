@@ -193,6 +193,9 @@ class HTMLGenerator:
             cards_html=cards_html,
             sort_key=self._config.get('repos', {}).get('sort', {}).get('key', 'stars'),
             page_size=self._config.get('repos', {}).get('page_size', 10),
+            # The initial order is sorted here, so the front end needs the same
+            # direction or re-sorting would silently flip it.
+            sort_descending=self._config.get('repos', {}).get('sort', {}).get('descending', True),
             filters=filters,
             footer={
                 'show': self._config.get('footer', {}).get('show', True),
