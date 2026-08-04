@@ -177,6 +177,9 @@ class HTMLGenerator:
         full_html = self._site_template.render(
             version=self._config.get('site', {}).get('version', 'v1'),
             build_time=datetime.now().strftime('%Y-%m-%d'),
+            # Cache buster for the CSS and JS URLs. Second precision, because
+            # build_time only changes daily and several deploys share a day.
+            build_id=datetime.now().strftime('%Y%m%d%H%M%S'),
             theme=self._config.get('site', {}).get('theme', 'light'),
             site_icon=self._config.get('site', {}).get('site_icon', ''),
             username=self._github_username,
