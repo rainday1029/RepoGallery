@@ -42,7 +42,10 @@ class HTMLGenerator:
         self._config: Dict[str, Any] = self._load_yaml('config.yaml')
         self._custom_images: Dict[str, str] = {}
         self._output_path: str = 'index.html'
-
+        # Set by set_random_image_cycles(), which only runs when random images
+        # are enabled. Declared here so the attribute always exists.
+        self.random_image_cycles: Optional[Dict[str, Any]] = None
+        
         if self._config.get('repos', {}).get('use_custom_image', False):
             self._custom_images = self._load_yaml('assets/custom_image.yaml')
 
@@ -72,7 +75,7 @@ class HTMLGenerator:
         token = os.getenv('GITHUB_TOKEN')
         headers = {'Authorization': f'token {token}'} if token else {}
         try:
-            response = requests.get(url, timeout=5)
+            response = requests.get(url, headers=headers, timeout=5)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
@@ -132,10 +135,14 @@ class HTMLGenerator:
             image_data = self._use_custom_image(repo)
 
         if not image_data:
-            if self._config.get('repos', {}).get('random_image', True):
-                return self._use_random_image()
-            # else:
-            #     image_data = self._use_repo_image(repo)
+            image_data = self._use_repo_image(repo)
+
+        # Only fall back to a random image when the repo has none of its own.
+        # random_image_cycles stays None when random images are turned off or
+        # when the theme has no images, so this also guards _use_random_image.
+        if not image_data and self.random_image_cycles:
+            return self._use_random_image()
+            
         return {"image": image_data, "display_url": '', "author": ''}
 
     def _render_cards(self, repos: List[Dict[str, Any]]) -> str:
