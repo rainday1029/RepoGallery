@@ -24,6 +24,7 @@ import itertools
 import logging
 import os
 import random
+import re
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
@@ -82,6 +83,13 @@ class HTMLGenerator:
             logger.error(f'Error fetching GitHub user info: {e}')
             return {}
 
+    @staticmethod
+    def _cap_image_width(url: str) -> str:
+        # The bundled Unsplash URLs ask for roughly 2000px wide originals for a
+        # card that renders at about 500px. Rewriting the width here rather than
+        # in assets/images.yaml means sync.sh cannot undo it.
+        return re.sub(r'([?&]w=)\d+', r'\g<1>800', url)
+
     def _get_random_images(self, theme: str) -> Dict[str, List[Any]]:
         images_ref = self._load_yaml('assets/images.yaml')
         images_list = images_ref.get(theme.capitalize(), [])
@@ -92,7 +100,7 @@ class HTMLGenerator:
             logger.info(f'Found {len(images_list)} images for theme: {theme}')
 
         random.shuffle(images_list)
-        urls = [image.get('url', '') for image in images_list]
+        urls = [self._cap_image_width(image.get('url', '')) for image in images_list]
         display_urls = [image.get('display_url', '') for image in images_list]
         authors = [image.get('author', '') for image in images_list]
         return {
