@@ -174,7 +174,9 @@ class HTMLGenerator:
             theme=self._config.get('site', {}).get('theme', 'light'),
             site_icon=self._config.get('site', {}).get('site_icon', ''),
             username=self._github_username,
-            email=github_info.get('email', ''),
+            # The key exists with a null value when the email is not public,
+            # so the get() default never kicks in and would render as "None".
+            email=github_info.get('email') or '',
             title=self._config.get('site', {}).get('title', '').replace('GITHUB_USERNAME', self._github_username),
             description=self._config.get('site', {}).get('description', ''),
             user_img=user_img if self._config.get('site', {}).get('show_picture', False) else '',
