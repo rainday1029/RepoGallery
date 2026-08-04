@@ -34,6 +34,14 @@ logger = logging.getLogger(__name__)
 
 
 class RepoFetcher:
+    # Status badges are almost always the first image in a README, and they
+    # make useless card art, so they are skipped when picking a repo image.
+    _BADGE_URL = re.compile(
+        r'img\.shields\.io|badgen\.net|badge\.fury\.io|forthebadge\.com'
+        r'|codecov\.io|travis-ci|circleci\.com|appveyor\.com|/badge\.svg',
+        re.IGNORECASE
+    )
+
     def __init__(self, username: str, token: Optional[str] = None) -> None:
         self._username: str = username
         self._token: Optional[str] = token
@@ -50,14 +58,16 @@ class RepoFetcher:
                 logger.warning(f'Failed to fetch README.md from {branch} branch: {e}')
                 continue
 
-            markdown_match = re.search(r'!\[.*?\]\((.*?)\)', response.text)
-            html_match = re.search(r'<img\s+[^>]*src="([^"]+)"', response.text)
+            matches = [
+                *re.finditer(r'!\[.*?\]\((.*?)\)', response.text),
+                *re.finditer(r'<img\s+[^>]*src="([^"]+)"', response.text)
+            ]
+            # Sort by position so the first illustration in the document wins,
+            # regardless of whether it is written in Markdown or HTML.
+            candidates = [m.group(1) for m in sorted(matches, key=lambda m: m.start())]
+            image_url = next((c for c in candidates if not self._BADGE_URL.search(c)), '')
 
-            if markdown_match:
-                image_url = markdown_match.group(1)
-            elif html_match:
-                image_url = html_match.group(1)
-            else:
+            if not image_url:
                 logger.info('No image found in README.md')
                 return None
 
