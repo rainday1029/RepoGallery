@@ -78,6 +78,16 @@ img {
   max-width: 100%;
 }
 
+/* ion-icon is a custom element, so before its script defines it the browser
+   treats it as an inline element with no size. Reserving a box keeps the
+   surrounding text from shifting when the icons finally render. */
+ion-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
 button {
   font-size: var(--font-size-xs);
   font-weight: var(--font-bold);
@@ -205,10 +215,12 @@ textarea:-ms-input-placeholder {
   text-align: center;
   width: 40px;
 }
-#scrollUp i {
+#scrollUp ion-icon {
   display: block;
   font-size: 24px;
   line-height: 35px;
+  width: 100%;
+  height: 36px;
 }
 #scrollUp:hover {
   background-color: var(--primary-color);
