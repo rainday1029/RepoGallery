@@ -326,9 +326,13 @@
       setActiveFilterButton(null);
       setMatch(function () {
         var titleText = $(this).find(".title").text().toLowerCase();
+        // The description carries the terms people actually search for, such
+        // as SHAP or U-Net, which the title and tags do not mention.
+        var descText = $(this).find(".desc").text().toLowerCase();
         var categories = ($(this).attr("data-category") || "").toLowerCase();
         return (
           titleText.indexOf(searchVal) !== -1 ||
+          descText.indexOf(searchVal) !== -1 ||
           categories.indexOf(searchVal) !== -1
         );
       });
@@ -342,9 +346,10 @@
       selectFilter($(this).attr("data-filter"));
     });
 
-    // Debounced, so a burst of keystrokes costs one pass instead of two
-    // Isotope layouts per character.
-    searchInput.on("keyup", function () {
+    // "input" rather than "keyup", so pasting with the mouse and the browser's
+    // own clear button update the grid too. Debounced, so a burst of keystrokes
+    // costs one pass instead of two Isotope layouts per character.
+    searchInput.on("input", function () {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(runSearch, 180);
     });
@@ -435,16 +440,6 @@
   ----------------------------------- */
   var THEME_KEY = "repogallery-theme";
 
-  function readStoredTheme() {
-    try {
-      var stored = localStorage.getItem(THEME_KEY);
-      return stored === "light" || stored === "dark" ? stored : null;
-    } catch (e) {
-      // Storage throws in private mode or with cookies blocked.
-      return null;
-    }
-  }
-
   $(document).ready(function () {
     var themeToggle = $("#theme-toggle");
 
@@ -457,12 +452,10 @@
       );
     }
 
-    // Sync the icon with the theme the inline head script already applied.
-    // Without a stored choice the theme from config.yaml is kept as is.
-    var storedTheme = readStoredTheme();
-    if (storedTheme) {
-      applyTheme(storedTheme);
-    }
+    // The head script already resolved the stored choice and the system
+    // preference, so treat what is on the element as the source of truth and
+    // just bring the icon into line with it.
+    applyTheme($("html").attr("data-bs-theme") === "dark" ? "dark" : "light");
 
     themeToggle.click(function () {
       var theme = $("html").attr("data-bs-theme") === "light" ? "dark" : "light";
