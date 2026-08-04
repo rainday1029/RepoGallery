@@ -195,15 +195,44 @@
   /* -----------------------------------
     Theme Toggle
   ----------------------------------- */
+  var THEME_KEY = "repogallery-theme";
+
+  function readStoredTheme() {
+    try {
+      var stored = localStorage.getItem(THEME_KEY);
+      return stored === "light" || stored === "dark" ? stored : null;
+    } catch (e) {
+      // Storage throws in private mode or with cookies blocked.
+      return null;
+    }
+  }
+
   $(document).ready(function () {
-    $("#theme-toggle").click(function () {
-      // Toggle between light and dark themes
-      if ($("html").attr("data-bs-theme") === "light") {
-        $("html").attr("data-bs-theme", "dark");
-        $(this).html('<ion-icon name="sunny"></ion-icon>'); // Change to sun icon
-      } else {
-        $("html").attr("data-bs-theme", "light");
-        $(this).html('<ion-icon name="moon"></ion-icon>'); // Change to moon icon
+    var themeToggle = $("#theme-toggle");
+
+    function applyTheme(theme) {
+      $("html").attr("data-bs-theme", theme);
+      themeToggle.html(
+        theme === "light"
+          ? '<ion-icon name="moon"></ion-icon>'
+          : '<ion-icon name="sunny"></ion-icon>'
+      );
+    }
+
+    // Sync the icon with the theme the inline head script already applied.
+    // Without a stored choice the theme from config.yaml is kept as is.
+    var storedTheme = readStoredTheme();
+    if (storedTheme) {
+      applyTheme(storedTheme);
+    }
+
+    themeToggle.click(function () {
+      var theme = $("html").attr("data-bs-theme") === "light" ? "dark" : "light";
+      applyTheme(theme);
+      try {
+        localStorage.setItem(THEME_KEY, theme);
+      } catch (e) {
+        // Ignore write failures; the toggle still works for this page view.
       }
     });
   });
