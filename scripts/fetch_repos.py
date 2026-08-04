@@ -59,7 +59,9 @@ class RepoFetcher:
                 continue
 
             matches = [
-                *re.finditer(r'!\[.*?\]\((.*?)\)', response.text),
+                # [^)\s]+ stops at the optional title in ![alt](url "title"),
+                # which a lazy (.*?) would swallow into the URL.
+                *re.finditer(r'!\[.*?\]\(\s*([^)\s]+)', response.text),
                 *re.finditer(r'<img\s+[^>]*src="([^"]+)"', response.text)
             ]
             # Sort by position so Markdown and HTML images share one document
