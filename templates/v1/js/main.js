@@ -175,6 +175,11 @@
   });
 
   $(document).ready(function () {
+    // Direction comes from config.yaml. It used to be hardcoded to descending,
+    // which contradicted the initial order whenever the config said otherwise.
+    var sortDescending =
+      $("#sort-dropdown").attr("data-descending") !== "false";
+
     $("#sort-dropdown .dropdown-menu a").on("click", function (e) {
       e.preventDefault();
 
@@ -185,7 +190,7 @@
 
       cardGrid.isotope({
         sortBy: sortBy,
-        sortAscending: false,
+        sortAscending: !sortDescending,
       });
       // The order changed, so start again from the first page.
       currentPage = 1;
