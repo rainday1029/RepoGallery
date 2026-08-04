@@ -39,7 +39,6 @@ a,
 button,
 input,
 textarea {
-  outline: medium none;
   text-decoration: none;
 }
 
@@ -96,8 +95,17 @@ a:focus,
 a:hover,
 .btn:focus {
   text-decoration: none;
-  outline: none;
   color: inherit;
+}
+
+/* A mouse click should not leave a ring behind, but keyboard users need to see
+   where they are. :focus-visible draws the ring only for keyboard focus. */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+*:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
 }
 
 input:focus,
