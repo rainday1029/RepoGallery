@@ -31,24 +31,51 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_ROOT: ${{ github.workspace }}
         run: python scripts/generate_html.py
-        
+
       - name: Commit and push changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add index.html
-          git commit -m "Auto-update index.html" || echo "No changes to commit"
-          git push
-          
+          cp index.html "$RUNNER_TEMP/index.html"
+          # Another push can land while this run is generating the page, which
+          # turns this push into a non-fast-forward. Retry on top of wherever
+          # the branch moved to, keeping this run's generated file.
+          for attempt in 1 2 3; do
+            git add index.html
+            git commit -m "Auto-update index.html" || echo "No changes to commit"
+            if git push; then
+              exit 0
+            fi
+            echo "Push rejected, retrying on top of the latest $GITHUB_REF_NAME"
+            git fetch origin "$GITHUB_REF_NAME"
+            git reset --hard "origin/$GITHUB_REF_NAME"
+            cp "$RUNNER_TEMP/index.html" index.html
+          done
+          echo "Could not push after 3 attempts"
+          exit 1
+
       - name: Prepare deployment folder
         run: |
           rm -rf public
           mkdir public
           cp index.html public/
-          cp -R assets public/
           mkdir -p public/templates
           find templates -type d -name js -exec sh -c 'mkdir -p public/$(dirname {}); cp -R {} public/$(dirname {})' \;
           find templates -type d -name css -exec sh -c 'mkdir -p public/$(dirname {}); cp -R {} public/$(dirname {})' \;
+          # Ship only the local files the generated page references. The rest of
+          # assets/ is build time input (the yaml files) and README screenshots,
+          # none of which belong in the deployed site.
+          python - <<'PY'
+          import os, re, shutil
+          html = open('index.html', encoding='utf-8').read()
+          for ref in sorted(set(re.findall(r'(?:src|href)="([^"#?]+)', html))):
+              if re.match(r'[a-z]+:|//|/', ref) or ref.startswith('templates/') or ref == 'index.html':
+                  continue
+              if os.path.isfile(ref):
+                  os.makedirs(os.path.join('public', os.path.dirname(ref)), exist_ok=True)
+                  shutil.copy(ref, os.path.join('public', ref))
+                  print('copied', ref)
+          PY
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
