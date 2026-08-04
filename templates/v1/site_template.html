@@ -113,7 +113,7 @@
           {% for filter in filters %}
           <button data-filter="{{ filter }}">{{ filter }}</button>
           {% endfor %}
-          <div class="btn-group" id="sort-dropdown">
+          <div class="btn-group" id="sort-dropdown" data-descending="{{ 'true' if sort_descending else 'false' }}">
             <button type="button" id="card-sort" data-bs-toggle="dropdown" aria-expanded="false">
               <ion-icon name="swap-vertical"></ion-icon>
             </button>
