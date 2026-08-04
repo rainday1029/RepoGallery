@@ -142,7 +142,8 @@
   background-color: var(--primary-color);
 }
 
-#toggle-filter-search {
+#toggle-filter-search,
+#toggle-view {
   font-size: var(--font-size-m);
 }
 
@@ -251,6 +252,29 @@
   font-size: var(--font-size-xs);
   color: var(--secondary-color);
   background-color: var(--tag-color);
+}
+
+/* List View
+   Isotope positions the items, so only their size needs to change here;
+   main.js calls isotope("layout") after toggling the class. */
+.card-grid.list-view .card-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+.card-grid.list-view .img-wrap {
+  flex: 0 0 240px;
+}
+.card-grid.list-view .card-item img,
+.card-grid.list-view .project-image-fallback {
+  height: 135px;
+  max-height: none;
+}
+.card-grid.list-view .content {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-top: 0;
 }
 
 .content-bottom {
