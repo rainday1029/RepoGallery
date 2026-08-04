@@ -25,6 +25,9 @@
 /*-- Footer Bottom --*/
 .footer-bottom {
   background-color: var(--color-black);
+  /* In the dark theme --bg-color is also #0d1117, so without this line the bar
+     has no visible edge against the page above it. */
+  border-top: 1px solid var(--color-gray);
   padding: 15px 0;
 }
 .footer-bottom .container {
