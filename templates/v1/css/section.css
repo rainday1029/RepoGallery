@@ -141,6 +141,10 @@
   color: var(--color-reverse);
   background-color: var(--primary-color);
 }
+.dropdown-item .sort-arrow {
+  opacity: 0.7;
+  float: right;
+}
 
 #toggle-filter-search,
 #toggle-view {
@@ -304,6 +308,16 @@
   flex: 1 1 auto;
   min-width: 0;
   margin-top: 0;
+}
+/* The hover stats are sized for a full width card. At 240px they wrap and
+   spill out of the thumbnail, so scale them down here. */
+.card-grid.list-view .img-wrap > a .state {
+  font-size: var(--font-size-s);
+  line-height: 18px;
+  letter-spacing: 0.5px;
+}
+.card-grid.list-view .img-wrap > a .state-item {
+  margin: 0 8px;
 }
 
 .content-bottom {
