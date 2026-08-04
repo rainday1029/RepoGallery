@@ -165,7 +165,10 @@
 }
 .card-item img {
   width: 100%;
-  max-height: 350px;
+  /* Reserves the space before the image loads, which matters now that the
+     images are lazy loaded. Replaces max-height, which left the height at 0
+     until each image arrived and made the whole grid jump. */
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   object-position: center;
   border: 0.5px solid var(--bg-color);
@@ -173,12 +176,15 @@
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.card-item a {
+/* Scoped to the image link only. The original selector was .card-item a, so
+   every anchor in the card got the darkening overlay, including the category
+   tags and the image credit. The > keeps the credit link out of it. */
+.card-item .img-wrap > a {
   display: block;
   overflow: hidden;
   position: relative;
 }
-.card-item a::before {
+.card-item .img-wrap > a::before {
   position: absolute;
   top: 0;
   left: 0;
@@ -188,10 +194,10 @@
   opacity: 0;
   background-color: var(--color-black);
 }
-.card-item a:hover::before {
+.card-item .img-wrap > a:hover::before {
   opacity: 0.65;
 }
-.card-item a .hover-content {
+.card-item .img-wrap > a .hover-content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -199,10 +205,10 @@
   opacity: 0;
   width: 100%;
 }
-.card-item a:hover .hover-content {
+.card-item .img-wrap > a:hover .hover-content {
   opacity: 1;
 }
-.card-item a .state {
+.card-item .img-wrap > a .state {
   color: var(--color-white);
   font-size: var(--font-size-l);
   font-weight: var(--font-medium);
@@ -214,7 +220,7 @@
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
 }
-.card-item a .state-item {
+.card-item .img-wrap > a .state-item {
   display: inline-block;
   margin: 0 25px;
 }
@@ -224,10 +230,6 @@
 }
 .card-item .content .title {
   font-weight: var(--font-semibold);
-}
-.card-item a.title-a:hover::before {
-  background-color: transparent !important;
-  opacity: 0 !important;
 }
 /* Clamp to three lines. The original rule set display: -webkit-box without
    -webkit-line-clamp, so nothing was ever truncated and the scroll container
@@ -311,15 +313,25 @@
   margin-top: 10px;
   gap: 45px;
 }
-.content-bottom button {
+/* A real link rather than a button, so it can be middle clicked and crawled.
+   The button styling from base.css does not reach anchors, so the relevant
+   properties are repeated here. */
+.content-bottom .demo-link {
   display: flex;
   align-items: center;
   padding: 4px 10px;
   margin: 0 4px;
   color: var(--color-white);
   background-color: var(--button-color);
+  border-radius: 5px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.5px;
   flex-shrink: 0;
   white-space: nowrap;
+}
+.content-bottom .demo-link:hover {
+  color: var(--color-white);
 }
 .category-tags {
   overflow-x: scroll;
