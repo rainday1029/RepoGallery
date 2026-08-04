@@ -84,7 +84,7 @@
   .card-filter-bar button {
     padding: 0 15px;
   }
-  .card-item a .hover-content {
+  .card-item .img-wrap > a .hover-content {
     bottom: auto;
     left: 0;
     right: 0;
