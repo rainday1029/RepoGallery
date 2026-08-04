@@ -62,10 +62,11 @@ class RepoFetcher:
                 *re.finditer(r'!\[.*?\]\((.*?)\)', response.text),
                 *re.finditer(r'<img\s+[^>]*src="([^"]+)"', response.text)
             ]
-            # Sort by position so the first illustration in the document wins,
-            # regardless of whether it is written in Markdown or HTML.
+            # Sort by position so Markdown and HTML images share one document
+            # order, then take the last one: READMEs tend to open with badges
+            # and headers and close with result figures.
             candidates = [m.group(1) for m in sorted(matches, key=lambda m: m.start())]
-            image_url = next((c for c in candidates if not self._BADGE_URL.search(c)), '')
+            image_url = next((c for c in reversed(candidates) if not self._BADGE_URL.search(c)), '')
 
             if not image_url:
                 logger.info('No image found in README.md')
