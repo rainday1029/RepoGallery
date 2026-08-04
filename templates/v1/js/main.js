@@ -104,20 +104,28 @@
     pager.empty();
     if (totalPages <= 1) return;
 
-    function pageButton(label, page, disabled, active) {
+    function pageButton(label, page, disabled, active, ariaLabel) {
       return $("<button>", { type: "button", text: label })
         .attr("data-page", page)
+        .attr("aria-label", ariaLabel || "Page " + page)
         .prop("disabled", !!disabled)
         .toggleClass("active", !!active);
     }
 
-    pager.append(pageButton("‹", currentPage - 1, currentPage === 1, false));
+    var onFirst = currentPage === 1;
+    var onLast = currentPage === totalPages;
+
+    pager.append(pageButton("«", 1, onFirst, false, "First page"));
+    pager.append(
+      pageButton("‹", currentPage - 1, onFirst, false, "Previous page")
+    );
     for (var i = 1; i <= totalPages; i++) {
       pager.append(pageButton(String(i), i, false, i === currentPage));
     }
     pager.append(
-      pageButton("›", currentPage + 1, currentPage === totalPages, false)
+      pageButton("›", currentPage + 1, onLast, false, "Next page")
     );
+    pager.append(pageButton("»", totalPages, onLast, false, "Last page"));
   }
 
   function renderPage() {
