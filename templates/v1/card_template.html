@@ -1,7 +1,7 @@
 <!-- {{ repo.name }} start -->
 <div
   class="card-item col-sm-6 col-xs-12"
-  data-category="{{ repo.repo_topics | join(' ') }} {{ repo.language }}"
+  data-category="|{{ repo.repo_topics | join('|') }}|{{ repo.language }}|"
   data-stars="{{ repo.stars }}"
   data-forks="{{ repo.forks }}"
   data-prs="{{ repo.prs }}"
@@ -13,7 +13,7 @@
   <div class="img-wrap">
     <a href="{{ repo.repo_url }}">
       {% if image_data.image %}
-      <img src="{{ image_data.image }}" alt="" />
+      <img src="{{ image_data.image }}" alt="{{ repo.name }}" loading="lazy" />
       {% else %}
       <div class="project-image-fallback">{{ repo.name }}</div>
       {% endif %}
