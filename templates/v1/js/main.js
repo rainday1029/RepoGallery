@@ -41,15 +41,24 @@
   //   scrollOffset: TopOffsetId,
   // });
 
+  function setMenuOpen(open) {
+    headerSection.toggleClass("menu-open", open);
+    menuSection.toggleClass("active", open);
+    menuToggle
+      .html('<ion-icon name="' + (open ? "close" : "menu") + '"></ion-icon>')
+      .attr("aria-label", open ? "Close menu" : "Open menu")
+      .attr("aria-expanded", open ? "true" : "false");
+  }
+
   menuToggle.on("click", function () {
-    if (headerSection.hasClass("menu-open")) {
-      headerSection.removeClass("menu-open");
-      $(this).html('<ion-icon name="menu"></ion-icon>');
-      menuSection.removeClass("active");
-    } else {
-      headerSection.addClass("menu-open");
-      $(this).html('<ion-icon name="close"></ion-icon>');
-      menuSection.addClass("active");
+    setMenuOpen(!headerSection.hasClass("menu-open"));
+  });
+
+  // The overlay covers the whole viewport, so it needs a keyboard way out.
+  windows.on("keydown", function (e) {
+    if (e.key === "Escape" && headerSection.hasClass("menu-open")) {
+      setMenuOpen(false);
+      menuToggle.trigger("focus");
     }
   });
 
@@ -163,34 +172,48 @@
     );
   });
 
-  $("#toggle-filter-search").on("click", function () {
-    $("#card-filter-text").toggle().focus();
-  });
-
-  $(document).on("click", function (e) {
-    var container = $("#toggle-filter-search, #card-filter-text");
-    if (!container.is(e.target) && container.has(e.target).length === 0) {
-      $("#card-filter-text").hide();
-    }
-  });
-
   $(document).ready(function () {
     // Direction comes from config.yaml. It used to be hardcoded to descending,
     // which contradicted the initial order whenever the config said otherwise.
     var sortDescending =
       $("#sort-dropdown").attr("data-descending") !== "false";
+    var sortItems = $("#sort-dropdown .dropdown-menu a");
+    var sortKey = sortItems.filter(".active").attr("data-sort") || "stars";
+    // Matches the order the page was generated with, so the arrow shown on
+    // load describes what is actually on screen.
+    var sortAscending = !sortDescending;
 
-    $("#sort-dropdown .dropdown-menu a").on("click", function (e) {
+    function defaultAscending(key) {
+      // Alphabetical reads naturally A to Z. Counts and dates read naturally
+      // highest or newest first, which is what config.yaml controls.
+      return key === "name" ? true : !sortDescending;
+    }
+
+    function markSortItem() {
+      sortItems.removeClass("active").find(".sort-arrow").remove();
+      sortItems
+        .filter('[data-sort="' + sortKey + '"]')
+        .addClass("active")
+        .append(
+          ' <span class="sort-arrow">' + (sortAscending ? "↑" : "↓") + "</span>"
+        );
+    }
+
+    markSortItem();
+
+    sortItems.on("click", function (e) {
       e.preventDefault();
 
-      $("#sort-dropdown .dropdown-menu a").removeClass("active");
-      $(this).addClass("active");
-
-      var sortBy = $(this).attr("data-sort");
+      var key = $(this).attr("data-sort");
+      // Clicking the key that is already selected flips the direction, so Name
+      // covers both A to Z and Z to A without editing config.yaml.
+      sortAscending = key === sortKey ? !sortAscending : defaultAscending(key);
+      sortKey = key;
+      markSortItem();
 
       cardGrid.isotope({
-        sortBy: sortBy,
-        sortAscending: !sortDescending,
+        sortBy: sortKey,
+        sortAscending: sortAscending,
       });
       // The order changed, so start again from the first page.
       currentPage = 1;
@@ -253,36 +276,54 @@
       }
     });
 
+    var searchInput = $("#card-filter-text");
+    var searchTimer = null;
+
+    // Every entry point below routes through these two, so the filter bar, the
+    // search box and the grid can never disagree about what is being shown.
+    function setActiveFilterButton(filterValue) {
+      var buttons = cardFilter.find("button[data-filter]");
+      buttons.removeClass("active");
+      if (filterValue) {
+        buttons
+          .filter('[data-filter="' + filterValue + '"]')
+          .addClass("active");
+      }
+    }
+
     function applyFilter(filterValue) {
       if (filterValue === "*") {
         setMatch(function () {
           return true;
         });
-      } else {
-        // data-category is pipe delimited, so wrapping the value in delimiters
-        // matches whole entries only. Plain includes() would let "Java" match
-        // "JavaScript" and "cnn" match "cnn-classification".
-        var needle = "|" + filterValue + "|";
-        setMatch(function () {
-          var categoryValue = $(this).attr("data-category") || "";
-          return categoryValue.indexOf(needle) !== -1;
-        });
+        return;
       }
+      // data-category is pipe delimited, so wrapping the value in delimiters
+      // matches whole entries only. Plain includes() would let "Java" match
+      // "JavaScript" and "cnn" match "cnn-classification".
+      var needle = "|" + filterValue + "|";
+      setMatch(function () {
+        var categoryValue = $(this).attr("data-category") || "";
+        return categoryValue.indexOf(needle) !== -1;
+      });
     }
 
-    // Button filter event
-    cardFilter.on("click", "button", function () {
-      if ($(this).is("#toggle-filter-search")) return;
-      if ($(this).is("#card-sort")) return;
-      if ($(this).is("#toggle-view")) return;
-      cardFilter.find("button").removeClass("active");
-      $(this).addClass("active");
-      applyFilter($(this).attr("data-filter"));
-    });
+    function selectFilter(filterValue) {
+      searchInput.val("");
+      setActiveFilterButton(filterValue);
+      applyFilter(filterValue);
+    }
 
-    // Search filter event
-    $("#card-filter-text").on("keyup", function () {
-      var searchVal = $(this).val().toLowerCase();
+    function runSearch() {
+      var searchVal = searchInput.val().toLowerCase();
+      if (!searchVal) {
+        setActiveFilterButton("*");
+        applyFilter("*");
+        return;
+      }
+      // Free text matches no filter button, so clear the highlight rather than
+      // leaving a stale one lit next to unrelated results.
+      setActiveFilterButton(null);
       setMatch(function () {
         var titleText = $(this).find(".title").text().toLowerCase();
         var categories = ($(this).attr("data-category") || "").toLowerCase();
@@ -291,12 +332,48 @@
           categories.indexOf(searchVal) !== -1
         );
       });
+    }
+
+    // Button filter event
+    cardFilter.on("click", "button", function () {
+      if ($(this).is("#toggle-filter-search")) return;
+      if ($(this).is("#card-sort")) return;
+      if ($(this).is("#toggle-view")) return;
+      selectFilter($(this).attr("data-filter"));
+    });
+
+    // Debounced, so a burst of keystrokes costs one pass instead of two
+    // Isotope layouts per character.
+    searchInput.on("keyup", function () {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(runSearch, 180);
     });
 
     // Category tag filter event
     $(".category-tag").on("click", function (e) {
       e.preventDefault();
-      applyFilter($(this).attr("data-filter"));
+      selectFilter($(this).attr("data-filter"));
+    });
+
+    $("#toggle-filter-search").on("click", function () {
+      if (searchInput.is(":visible")) {
+        searchInput.hide();
+        if (searchInput.val()) {
+          selectFilter("*");
+        }
+      } else {
+        searchInput.show().trigger("focus");
+      }
+    });
+
+    $(document).on("click", function (e) {
+      var container = $("#toggle-filter-search, #card-filter-text");
+      if (container.is(e.target) || container.has(e.target).length) return;
+      // Stay open while a search is active, otherwise the grid keeps its
+      // filter with nothing left on screen explaining why.
+      if (!searchInput.val()) {
+        searchInput.hide();
+      }
     });
 
     // Everything is wired up, so draw the first page.
