@@ -1,19 +1,7 @@
 (function ($) {
-  ("use strict");
+  "use strict";
 
-  /* -----------------------------------
-	  Menu Sticky
-  ----------------------------------- */
   var windows = $(window);
-  var sticky = $(".header-sticky");
-  windows.on("scroll", function () {
-    var scroll = windows.scrollTop();
-    if (scroll < 250) {
-      sticky.removeClass("stick");
-    } else {
-      sticky.addClass("stick");
-    }
-  });
 
   /* -----------------------------------
 	  Mobile Menu
@@ -70,7 +58,6 @@
   ----------------------------------- */
   var cardFilter = $(".card-filter-bar");
   var cardGrid = $(".card-grid");
-  var cardGridMasonry = $(".card-grid-masonry");
   var cardGridItem = ".card-item";
 
   var VIEW_KEY = "repogallery-view";
@@ -206,10 +193,13 @@
     });
   });
 
-  cardGrid.imagesLoaded(function () {
+  function initCardGrid() {
+    // One init only. The old code called .isotope() twice on the same element,
+    // because both class names sit on the same div, so the fitRows mode of the
+    // first call was immediately replaced by masonry from the second.
     cardGrid.isotope({
       itemSelector: cardGridItem,
-      layoutMode: "fitRows",
+      layoutMode: "masonry",
       masonry: {
         columnWidth: 1,
       },
@@ -229,13 +219,6 @@
           const dateStr = $(itemElem).attr("data-created-at") || "";
           return new Date(dateStr).getTime() || 0;
         },
-      },
-    });
-    cardGridMasonry.isotope({
-      itemSelector: cardGridItem,
-      layoutMode: "masonry",
-      masonry: {
-        columnWidth: 1,
       },
     });
 
@@ -271,9 +254,13 @@
           return true;
         });
       } else {
+        // data-category is pipe delimited, so wrapping the value in delimiters
+        // matches whole entries only. Plain includes() would let "Java" match
+        // "JavaScript" and "cnn" match "cnn-classification".
+        var needle = "|" + filterValue + "|";
         setMatch(function () {
-          var categoryValue = $(this).data("category") || "";
-          return categoryValue.includes(filterValue);
+          var categoryValue = $(this).attr("data-category") || "";
+          return categoryValue.indexOf(needle) !== -1;
         });
       }
     }
@@ -309,6 +296,15 @@
 
     // Everything is wired up, so draw the first page.
     renderPage();
+  }
+
+  initCardGrid();
+
+  // Lay out straight away and refine as each image arrives. Waiting for every
+  // image before the first layout let one slow external image block the whole
+  // grid, and lazy loaded images never resolve until they are scrolled to.
+  cardGrid.imagesLoaded().progress(function () {
+    cardGrid.isotope("layout");
   });
 
   /* -----------------------------------
