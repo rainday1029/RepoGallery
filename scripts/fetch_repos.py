@@ -34,8 +34,8 @@ logger = logging.getLogger(__name__)
 
 
 class RepoFetcher:
-    # Status badges are almost always the first image in a README, and they
-    # make useless card art, so they are skipped when picking a repo image.
+    # Status badges show up at both ends of a README and make useless card
+    # art, so they are skipped when picking a repo image.
     _BADGE_URL = re.compile(
         r'img\.shields\.io|badgen\.net|badge\.fury\.io|forthebadge\.com'
         r'|codecov\.io|travis-ci|circleci\.com|appveyor\.com|/badge\.svg',
@@ -82,7 +82,8 @@ class RepoFetcher:
     def _get_repo_prs(self, repo_name: str) -> int:
         url = f'https://api.github.com/repos/{self._username}/{repo_name}/pulls'
         try:
-            response = requests.get(url, headers={'Accept': 'application/vnd.github.v3+json'}, timeout=5)
+            headers = {'Accept': 'application/vnd.github.v3+json', **self._headers}
+            response = requests.get(url, headers=headers, timeout=5)
             response.raise_for_status()
             return len(response.json())
         except requests.exceptions.RequestException as e:
@@ -123,12 +124,28 @@ class RepoFetcher:
 
     def fetch_repos(self) -> List[Dict[str, Any]]:
         url = f'https://api.github.com/users/{self._username}/repos'
-        try:
-            response = requests.get(url, headers=self._headers, timeout=5)
-            response.raise_for_status()
-        except requests.RequestException as e:
-            raise Exception(f'Failed to fetch repos: {e}')
-        repos = response.json()
+        per_page = 100
+        page = 1
+        repos: List[Dict[str, Any]] = []
+
+        # The endpoint returns 30 repos per page by default and sorts by
+        # full_name, so without paging everything after the 30th name is
+        # dropped without any error.
+        while True:
+            params = {'per_page': per_page, 'page': page}
+            try:
+                response = requests.get(url, headers=self._headers, params=params, timeout=5)
+                response.raise_for_status()
+            except requests.RequestException as e:
+                raise Exception(f'Failed to fetch repos: {e}')
+
+            batch = response.json()
+            repos.extend(batch)
+            if len(batch) < per_page:
+                break
+            page += 1
+
+        logger.info(f'Fetched {len(repos)} repos across {page} page(s)')
         return [self._fetch_repo_data(repo) for repo in repos]
 
 
