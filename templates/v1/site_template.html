@@ -130,8 +130,9 @@
           <!-- Projects Card Start -->
           {{ cards_html | safe }}
           <!-- Projects Card End -->
-         <nav class="card-pagination" id="card-pagination" aria-label="Project pages"></nav>
         </div>
+
+        <nav class="card-pagination" id="card-pagination" data-page-size="{{ page_size }}" aria-label="Project pages"></nav>
       </div>
     </section>
 
