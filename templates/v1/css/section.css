@@ -254,6 +254,32 @@
   background-color: var(--tag-color);
 }
 
+/* Pagination */
+.card-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 30px;
+}
+.card-pagination button {
+  background-color: transparent;
+  min-width: 38px;
+  padding: 0 12px;
+}
+.card-pagination button:hover:not(:disabled) {
+  color: var(--secondary-color);
+}
+.card-pagination button.active,
+.card-pagination button.active:hover {
+  background-color: var(--primary-color);
+  color: var(--color-reverse);
+}
+.card-pagination button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 /* List View
    Isotope positions the items, so only their size needs to change here;
    main.js calls isotope("layout") after toggling the class. */
