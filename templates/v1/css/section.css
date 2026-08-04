@@ -82,6 +82,7 @@
   color: var(--secondary-color);
   letter-spacing: 1px;
   margin-bottom: 0;
+  max-width: 60ch;
 }
 
 /* Shrink the left column to the image width so the text sits next to it
