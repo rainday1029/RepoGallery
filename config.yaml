@@ -6,6 +6,8 @@
 #    - title: Site title. Default is "Hi, I'm GITHUB_USERNAME",
 #             where GITHUB_USERNAME will be replaced by your GitHub username.
 #    - description: Site description
+#    - email: Contact email used by the menu link.
+#             Leave empty to fall back to your public GitHub email.
 #    - show_picture: Enable / Disable profile picture
 #    - picture_path: Profile picture path. Default is your GitHub profile picture.
 #                    Ignored if show_picture is false.
@@ -14,6 +16,8 @@
 #
 # 2. Repos
 #    - limit: Limit the number of repos to display, 0 is unlimited
+#    - page_size: Number of repos shown per page. The page links are hidden
+#                 when everything fits on a single page.
 #    - show_forks: Show fork repos
 #    - sort:
 #        - key: Sort by "name" / "stars" / "forks" / "pushed_at" / "updated_at" / "created_at"
@@ -47,6 +51,7 @@ site:
 
 repos:
   limit: 0
+  page_size: 10
   show_forks: false
   sort:
     key: "stars"
