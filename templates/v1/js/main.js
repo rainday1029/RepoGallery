@@ -230,6 +230,36 @@
     animation: "fadeOut",
   });
 
+  // The button is position: fixed, so at the bottom of the page it lands on
+  // top of the dark footer bar. Push it up by however far that bar reaches
+  // into the viewport, and leave it at its resting offset otherwise.
+  var footerBottom = $(".footer-bottom");
+  var scrollUpEl = null;
+  var scrollUpRestingBottom = 0;
+  var SCROLL_UP_GAP = 20;
+
+  function keepScrollUpAboveFooter() {
+    if (!footerBottom.length) return;
+
+    if (!scrollUpEl) {
+      // The plugin injects the element, so look it up lazily.
+      var found = $("#scrollUp");
+      if (!found.length) return;
+      scrollUpEl = found;
+      // Read the resting offset from base.css before overriding it.
+      scrollUpRestingBottom = parseInt(found.css("bottom"), 10) || 0;
+    }
+
+    var footerTop = footerBottom.offset().top - windows.scrollTop();
+    var intrusion = window.innerHeight - footerTop;
+    scrollUpEl.css(
+      "bottom",
+      Math.max(scrollUpRestingBottom, intrusion + SCROLL_UP_GAP) + "px"
+    );
+  }
+
+  windows.on("scroll resize", keepScrollUpAboveFooter);
+  keepScrollUpAboveFooter();
   /* -----------------------------------
     Theme Toggle
   ----------------------------------- */
