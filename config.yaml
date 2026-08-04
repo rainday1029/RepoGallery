@@ -51,7 +51,7 @@ site:
 
 repos:
   limit: 0
-  page_size: 4
+  page_size: 1
   show_forks: false
   sort:
     key: "stars"
