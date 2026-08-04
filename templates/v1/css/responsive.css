@@ -20,9 +20,11 @@
     margin-top: 100px;
     padding: 85px 40px;
   }
+  /* No line-height here: section.css sets a 1.15 multiplier, and the fixed
+     pixel values this used to carry were smaller than the font size, so a
+     wrapped heading overlapped itself. */
   .hero-content h1 {
     font-size: 36px;
-    line-height: 28px;
     margin-bottom: 20px;
   }
   .hero-content h4 {
@@ -42,7 +44,6 @@
   }
   .hero-content h1 {
     font-size: 44px;
-    line-height: 36px;
   }
   .card-grid.list-view .img-wrap {
     flex-basis: 130px;
@@ -75,7 +76,6 @@
   }
   .hero-content h1 {
     font-size: 30px;
-    line-height: 30px;
     margin-bottom: 15px;
   }
   .hero-content h4 {
@@ -84,13 +84,7 @@
   .card-filter-bar button {
     padding: 0 15px;
   }
-  .card-item .img-wrap > a .hover-content {
-    bottom: auto;
-    left: 0;
-    right: 0;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+  .card-item .content .state {
+    gap: 12px;
   }
 }
