@@ -87,8 +87,11 @@
   /* -----------------------------------
 	  Pagination
   ----------------------------------- */
-  var PAGE_SIZE = 10;
   var pager = $("#card-pagination");
+  // Page size comes from config.yaml through a data attribute. Fall back to
+  // 10 if it is missing or not a positive number.
+  var configuredPageSize = parseInt(pager.attr("data-page-size"), 10);
+  var PAGE_SIZE = configuredPageSize > 0 ? configuredPageSize : 10;
   var projectSection = $(".project-section");
   var currentPage = 1;
   // Predicate run against each card element, owned by the filter and search
