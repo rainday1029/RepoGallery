@@ -72,7 +72,7 @@
   var cardGrid = $(".card-grid");
   var cardGridMasonry = $(".card-grid-masonry");
   var cardGridItem = ".card-item";
-  
+
   var VIEW_KEY = "repogallery-view";
 
   function readStoredView() {
@@ -83,7 +83,88 @@
       return "grid";
     }
   }
-	
+
+  /* -----------------------------------
+	  Pagination
+  ----------------------------------- */
+  var PAGE_SIZE = 10;
+  var pager = $("#card-pagination");
+  var projectSection = $(".project-section");
+  var currentPage = 1;
+  // Predicate run against each card element, owned by the filter and search
+  // handlers. Pagination narrows whatever this matches.
+  var currentMatch = function () {
+    return true;
+  };
+
+  function renderPager(totalPages) {
+    pager.empty();
+    if (totalPages <= 1) return;
+
+    function pageButton(label, page, disabled, active) {
+      return $("<button>", { type: "button", text: label })
+        .attr("data-page", page)
+        .prop("disabled", !!disabled)
+        .toggleClass("active", !!active);
+    }
+
+    pager.append(pageButton("‹", currentPage - 1, currentPage === 1, false));
+    for (var i = 1; i <= totalPages; i++) {
+      pager.append(pageButton(String(i), i, false, i === currentPage));
+    }
+    pager.append(
+      pageButton("›", currentPage + 1, currentPage === totalPages, false)
+    );
+  }
+
+  function renderPage() {
+    var iso = cardGrid.data("isotope");
+    if (!iso) return;
+
+    // Pass 1: apply the filter alone, without transition, so Isotope hands
+    // back the matching items already in the active sort order. Both passes
+    // run in the same task, so the intermediate state is never painted.
+    cardGrid.isotope({ transitionDuration: "0s", filter: currentMatch });
+    var ordered = iso.filteredItems.map(function (item) {
+      return item.element;
+    });
+
+    var totalPages = Math.max(1, Math.ceil(ordered.length / PAGE_SIZE));
+    currentPage = Math.min(currentPage, totalPages);
+    var pageElements = ordered.slice(
+      (currentPage - 1) * PAGE_SIZE,
+      currentPage * PAGE_SIZE
+    );
+
+    // Pass 2: narrow to the current page with the normal animation restored.
+    cardGrid.isotope({
+      transitionDuration: "0.4s",
+      filter: function () {
+        return pageElements.indexOf(this) !== -1;
+      },
+    });
+
+    $("#search-not-found").toggle(ordered.length === 0);
+    renderPager(totalPages);
+  }
+
+  function setMatch(matchFn) {
+    currentMatch = matchFn;
+    currentPage = 1;
+    renderPage();
+  }
+
+  pager.on("click", "button", function () {
+    var page = parseInt($(this).attr("data-page"), 10);
+    if (!page || page === currentPage) return;
+    currentPage = page;
+    renderPage();
+    $("html, body").animate(
+      { scrollTop: projectSection.offset().top - 20 },
+      300
+    );
+  });
+
   $("#toggle-filter-search").on("click", function () {
     $("#card-filter-text").toggle().focus();
   });
@@ -108,6 +189,9 @@
         sortBy: sortBy,
         sortAscending: false,
       });
+      // The order changed, so start again from the first page.
+      currentPage = 1;
+      renderPage();
     });
   });
 
@@ -172,13 +256,13 @@
 
     function applyFilter(filterValue) {
       if (filterValue === "*") {
-        cardGrid.isotope({ filter: "*" });
+        setMatch(function () {
+          return true;
+        });
       } else {
-        cardGrid.isotope({
-          filter: function () {
-            var categoryValue = $(this).data("category") || "";
-            return categoryValue.includes(filterValue);
-          },
+        setMatch(function () {
+          var categoryValue = $(this).data("category") || "";
+          return categoryValue.includes(filterValue);
         });
       }
     }
@@ -187,30 +271,23 @@
     cardFilter.on("click", "button", function () {
       if ($(this).is("#toggle-filter-search")) return;
       if ($(this).is("#card-sort")) return;
-	  if ($(this).is("#toggle-view")) return;
+      if ($(this).is("#toggle-view")) return;
       cardFilter.find("button").removeClass("active");
       $(this).addClass("active");
       applyFilter($(this).attr("data-filter"));
-      $("#search-not-found").hide();
     });
 
     // Search filter event
     $("#card-filter-text").on("keyup", function () {
       var searchVal = $(this).val().toLowerCase();
-      cardGrid.isotope({
-        filter: function () {
-          var titleText = $(this).find(".title").text().toLowerCase();
-          var categories = $(this).attr("data-category").toLowerCase();
-          return (
-            titleText.indexOf(searchVal) !== -1 ||
-            categories.indexOf(searchVal) !== -1
-          );
-        },
+      setMatch(function () {
+        var titleText = $(this).find(".title").text().toLowerCase();
+        var categories = ($(this).attr("data-category") || "").toLowerCase();
+        return (
+          titleText.indexOf(searchVal) !== -1 ||
+          categories.indexOf(searchVal) !== -1
+        );
       });
-      var matched = cardGrid.data("isotope").filteredItems.length;
-      matched === 0
-        ? $("#search-not-found").show()
-        : $("#search-not-found").hide();
     });
 
     // Category tag filter event
@@ -218,6 +295,9 @@
       e.preventDefault();
       applyFilter($(this).attr("data-filter"));
     });
+
+    // Everything is wired up, so draw the first page.
+    renderPage();
   });
 
   /* -----------------------------------
@@ -260,6 +340,7 @@
 
   windows.on("scroll resize", keepScrollUpAboveFooter);
   keepScrollUpAboveFooter();
+
   /* -----------------------------------
     Theme Toggle
   ----------------------------------- */
