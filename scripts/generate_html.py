@@ -66,6 +66,11 @@ class HTMLGenerator:
 
     def _get_github_user_info(self, username: str) -> Dict[str, Any]:
         url = f'https://api.github.com/users/{username}'
+        # Authenticate the request. Unauthenticated calls share a 60 req/hour
+        # quota per IP, which Actions runners hit regularly, and a 403 here
+        # silently drops the avatar and the contact email.
+        token = os.getenv('GITHUB_TOKEN')
+        headers = {'Authorization': f'token {token}'} if token else {}
         try:
             response = requests.get(url, timeout=5)
             response.raise_for_status()
@@ -155,7 +160,14 @@ class HTMLGenerator:
 
         github_info = self._get_github_user_info(self._github_username)
         user_img = self._config.get('site', {}).get('picture_path') or github_info.get('avatar_url', '')
-
+        # Fall back to the redirect endpoint, which needs no API call at all,
+        # so the avatar survives even if the user info request fails.
+        user_img = (
+            self._config.get('site', {}).get('picture_path')
+            or github_info.get('avatar_url')
+            or f'https://github.com/{self._github_username}.png'
+        )
+        
         full_html = self._site_template.render(
             version=self._config.get('site', {}).get('version', 'v1'),
             build_time=datetime.now().strftime('%Y-%m-%d'),
