@@ -25,7 +25,7 @@ import logging
 import os
 import random
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import jinja2
 import requests
@@ -45,7 +45,7 @@ class HTMLGenerator:
         # Set by set_random_image_cycles(), which only runs when random images
         # are enabled. Declared here so the attribute always exists.
         self.random_image_cycles: Optional[Dict[str, Any]] = None
-        
+
         if self._config.get('repos', {}).get('use_custom_image', False):
             self._custom_images = self._load_yaml('assets/custom_image.yaml')
 
@@ -142,7 +142,7 @@ class HTMLGenerator:
         # when the theme has no images, so this also guards _use_random_image.
         if not image_data and self.random_image_cycles:
             return self._use_random_image()
-            
+
         return {"image": image_data, "display_url": '', "author": ''}
 
     def _render_cards(self, repos: List[Dict[str, Any]]) -> str:
@@ -166,7 +166,6 @@ class HTMLGenerator:
         cards_html = self._render_cards(repos)
 
         github_info = self._get_github_user_info(self._github_username)
-        user_img = self._config.get('site', {}).get('picture_path') or github_info.get('avatar_url', '')
         # Fall back to the redirect endpoint, which needs no API call at all,
         # so the avatar survives even if the user info request fails.
         user_img = (
@@ -174,7 +173,7 @@ class HTMLGenerator:
             or github_info.get('avatar_url')
             or f'https://github.com/{self._github_username}.png'
         )
-        
+
         full_html = self._site_template.render(
             version=self._config.get('site', {}).get('version', 'v1'),
             build_time=datetime.now().strftime('%Y-%m-%d'),
@@ -190,6 +189,7 @@ class HTMLGenerator:
             user_img=user_img if self._config.get('site', {}).get('show_picture', False) else '',
             cards_html=cards_html,
             sort_key=self._config.get('repos', {}).get('sort', {}).get('key', 'stars'),
+            page_size=self._config.get('repos', {}).get('page_size', 10),
             filters=filters,
             footer={
                 'show': self._config.get('footer', {}).get('show', True),
