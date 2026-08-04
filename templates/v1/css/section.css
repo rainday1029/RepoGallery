@@ -70,10 +70,10 @@
   text-transform: uppercase;
 }
 .hero-content h1 {
-  font-size: 55px;
+  font-size: clamp(32px, 3.4vw, 44px);
   font-weight: var(--font-extra-bold);
   letter-spacing: 2px;
-  line-height: 50px;
+  line-height: 1.15;
   margin-bottom: 20px;
 }
 .hero-content h4 {
