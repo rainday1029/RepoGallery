@@ -17,15 +17,6 @@
       {% else %}
       <div class="project-image-fallback">{{ repo.name }}</div>
       {% endif %}
-      <!-- Repo State -->
-      <div class="hover-content">
-        <div class="state">
-          <i class="state-item ion-android-star-outline"><span>{{ repo.stars }}</span></i>
-          <i class="state-item ion-fork-repo"><span>{{ repo.forks }}</span></i>
-          <i class="state-item ion-pull-request"><span>{{ repo.prs }}</span></i>
-          <!-- <img src="{{ repo.license_url }}" /> -->
-        </div>
-      </div>
     </a>
     {% if image_data.display_url %}
     <!-- Image Credit -->
@@ -38,6 +29,15 @@
   <!-- Repo Info -->
   <div class="content">
     <a href="{{ repo.repo_url }}" class="title-a"><h3 class="title">{{ repo.name }}</h3></a>
+
+    <!-- Repo State. Always visible: on a touch screen there is no hover, so
+         inside the image overlay these numbers were unreachable. -->
+    <div class="state">
+      <i class="state-item ion-android-star-outline"><span>{{ repo.stars }}</span></i>
+      <i class="state-item ion-fork-repo"><span>{{ repo.forks }}</span></i>
+      <i class="state-item ion-pull-request"><span>{{ repo.prs }}</span></i>
+    </div>
+
     <span class="desc">{{ repo.description }}</span>
 
     <div class="content-bottom">
