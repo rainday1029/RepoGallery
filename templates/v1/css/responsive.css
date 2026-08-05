@@ -47,9 +47,18 @@
   .hero-content {
     margin-top: 0;
     padding: 50px 40px;
+    text-align: center;
   }
   .hero-content h1 {
     font-size: 44px;
+  }
+  /* section.css caps the description at 60ch. That cap still binds near 767px,
+     and a narrower block sitting flush left would read as off centre even with
+     its text centred, so centre the block itself too. */
+  .hero-content h4,
+  .hero-content .hero-tagline {
+    margin-left: auto;
+    margin-right: auto;
   }
   /* Phones get the list layout unconditionally: two columns leave each card
      too narrow to read. The toggle is hidden rather than disabled, and the
