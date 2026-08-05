@@ -1,199 +1,59 @@
-<!--
-  Copyright 2025 Ting-An Cheng
-   ____                        ____         _  _
-  |  _ \   ___  _ __    ___   / ___|  __ _ | || |  ___  _ __  _   _
-  | |_) | / _ \| '_ \  / _ \ | |  _  / _` || || | / _ \| '__|| | | |
-  |  _ < |  __/| |_) || (_) || |_| || (_| || || ||  __/| |   | |_| |
-  |_| \_\ \___|| .__/  \___/  \____| \__,_||_||_| \___||_|    \__, |
-               |_|                                            |___/
+<!-- {{ repo.name }} start -->
+<div
+  class="card-item col-sm-6 col-xs-12"
+  data-category="|{{ repo.repo_topics | join('|') }}|{{ repo.language }}|"
+  data-stars="{{ repo.stars }}"
+  data-forks="{{ repo.forks }}"
+  data-prs="{{ repo.prs }}"
+  data-pushed-at="{{ repo.pushed_at }}"
+  data-updated-at="{{ repo.updated_at }}"
+  data-created-at="{{ repo.created_at }}"
+>
+  <!-- Image -->
+  <div class="img-wrap">
+    <a href="{{ repo.repo_url }}" target="_blank" rel="noopener">
+      {% if image_data.image %}
+      <img src="{{ image_data.image }}" alt="{{ repo.name }}" loading="lazy" />
+      {% else %}
+      <div class="project-image-fallback">{{ repo.name }}</div>
+      {% endif %}
+    </a>
+    {% if image_data.display_url %}
+    <!-- Image Credit -->
+    <div class="image-credit">
+      <a href="{{ image_data.display_url }}" target="_blank" rel="noopener">@{{ image_data.author }}</a>
+    </div>
+    {% endif %}
+  </div>
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+  <!-- Repo Info -->
+  <div class="content">
+    <a href="{{ repo.repo_url }}" class="title-a" target="_blank" rel="noopener"><h3 class="title">{{ repo.name }}</h3></a>
 
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
-
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="{{ theme }}">
-  <head>
-    <meta charset="utf-8" />
-    <title>RepoGallery</title>
-    <meta name="author" content="Ting-An Cheng" />
-    <meta name="keywords" content="RepoGallery" />
-    <meta name="description" content="{{ description }}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- No type attribute: the GitHub avatar is served as JPEG, not x-icon. -->
-    <link rel="icon" href="{{ site_icon }}" />
-    <!-- Warm up the connections to the remaining third parties so their DNS
-         and TLS handshakes do not sit on the critical path. -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-    <link rel="preconnect" href="https://unpkg.com" crossorigin />
-    <link rel="preconnect" href="https://images.unsplash.com" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
-    <!-- Linked individually rather than through style.css, whose @import rules
-         cannot carry the cache-busting parameter and load serially. -->
-    <link rel="stylesheet" href="templates/{{ version }}/css/variables.css?v={{ build_id }}" />
-    <link rel="stylesheet" href="templates/{{ version }}/css/base.css?v={{ build_id }}" />
-    <link rel="stylesheet" href="templates/{{ version }}/css/header.css?v={{ build_id }}" />
-    <link rel="stylesheet" href="templates/{{ version }}/css/section.css?v={{ build_id }}" />
-    <link rel="stylesheet" href="templates/{{ version }}/css/footer.css?v={{ build_id }}" />
-    <link rel="stylesheet" href="templates/{{ version }}/css/responsive.css?v={{ build_id }}" />
-    <script>
-      // Resolve the theme before first paint, otherwise the page renders with
-      // the config.yaml theme and visibly flashes when main.js loads.
-      // Order: the visitor's own choice, then the operating system setting,
-      // and only then the config.yaml default already on the html element.
-      try {
-        var theme = localStorage.getItem("repogallery-theme");
-        if (theme !== "light" && theme !== "dark") {
-          theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
-        }
-        document.documentElement.setAttribute("data-bs-theme", theme);
-      } catch (e) {}
-    </script>
-  </head>
-
-  <body>
-    <!--Header Section-->
-    <header class="header-section">
-      <div class="container">
-        <a href="index.html" class="float-left">RepoGallery</a>
-        <div class="float-right">
-          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-            {% if theme == "light" %}
-            <ion-icon name="moon"></ion-icon>
-            {% else %}
-            <ion-icon name="sunny"></ion-icon>
-            {% endif %}
-          </button>
-          <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
-            <ion-icon name="menu"></ion-icon>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!--Menu Section-->
-    <div class="menu-section">
-      <div class="container">
-        <nav class="menu">
-          <ul>
-            <li class="active"><a href="index.html">home</a></li>
-            <li>
-              <a href="https://github.com/{{ username }}" target="_blank" rel="noopener">github</a>
-            </li>
-            <li><a href="mailto:{{ email }}">contact</a></li>
-          </ul>
-        </nav>
-      </div>
+    <!-- Repo State. Always visible: on a touch screen there is no hover, so
+         inside the image overlay these numbers were unreachable. -->
+    <div class="state">
+      <span class="state-item"><ion-icon name="star-outline"></ion-icon><span>{{ repo.stars }}</span></span>
+      <span class="state-item"><ion-icon name="git-branch-outline"></ion-icon><span>{{ repo.forks }}</span></span>
+      <span class="state-item"><ion-icon name="git-pull-request-outline"></ion-icon><span>{{ repo.prs }}</span></span>
     </div>
 
-    <!--Hero Section-->
-    <section class="hero-section">
-      <div class="container">
-        <div class="row">
-          {% if user_img %}
-          <div class="hero-image col-sm-6 col-xs-12">
-            <img src="{{ user_img }}" alt="{{ username }}" />
-          </div>
-          {% endif %}
-          <div class="hero-content col-sm-6 col-xs-12">
-            <h1>{{ title }}</h1>
-            <h4>
-              {% for part in description.split('·') %}
-              <span class="item">{{ part.strip() }}</span>
-              {% endfor %}
-            </h4>
-            {% if tagline %}
-            <p class="hero-tagline">{{ tagline }}</p>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </section>
+    <span class="desc">{{ repo.description }}</span>
 
-    <!--Project Section-->
-    <section class="project-section">
-      <div class="container">
-        <div class="card-filter-bar">
-          <button class="active" data-filter="*">All</button>
-          {% for filter in filters %}
-          <button data-filter="{{ filter }}">{{ filter }}</button>
-          {% endfor %}
-          <div class="btn-group" id="sort-dropdown" data-descending="{{ 'true' if sort_descending else 'false' }}">
-            <button type="button" id="card-sort" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Sort projects">
-              <ion-icon name="swap-vertical"></ion-icon>
-            </button>
-            <ul class="dropdown-menu">
-              {% set sort_keys = ["name", "stars", "forks", "pushed_at", "updated_at", "created_at"] %} {% for key in sort_keys %}
-              <li>
-                <a class="dropdown-item {% if sort_key == key %}active{% endif %}" href="#" data-sort="{{ key }}">{{ key | replace("_"," ") | capitalize }}</a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-          <button type="button" id="toggle-view" aria-label="Toggle grid or list view">
-            <ion-icon name="list"></ion-icon>
-          </button>
-          <div class="form-inline">
-            <button type="button" id="toggle-filter-search" aria-label="Search projects">
-              <ion-icon name="search"></ion-icon>
-            </button>
-            <input type="text" class="form-control" id="card-filter-text" aria-label="Search projects or tags" placeholder="Search Projects or Tags"/>
-          </div>
-        </div>
-        <div id="search-not-found">No results found</div>
-
-        <div class="card-grid card-grid-masonry row">
-          <!-- Projects Card Start -->
-          {{ cards_html | safe }}
-          <!-- Projects Card End -->
-        </div>
-
-        <nav class="card-pagination" id="card-pagination" data-page-size="{{ page_size }}" aria-label="Project pages"></nav>
-      </div>
-    </section>
-
-    <!--Footer Section-->
-    <footer class="footer-section">
-      {% if footer.show %}
-      <div class="container footer-top">
-        <a href="https://github.com/{{ username }}"><ion-icon name="logo-github"></ion-icon></a>
-        {% for icon, href in zip(footer.icons, footer.href) %}
-        <a href="{{ href }}"><ion-icon name="logo-{{ icon }}"></ion-icon></a>
+    <div class="content-bottom">
+      <!-- Category Tags -->
+      <div class="category-tags">
+        {% if repo.language %}
+        <a href="#" class="category-tag" data-filter="{{ repo.language }}">{{ repo.language }}</a>
+        {% endif %} {% for topic in repo.repo_topics %}
+        <a href="#" class="category-tag" data-filter="{{ topic }}">{{ topic }}</a>
         {% endfor %}
-        <a href="mailto:{{ email }}"><ion-icon name="mail"></ion-icon></a>
       </div>
+      {% if url %}
+      <!-- Live Demo Button -->
+      <a href="{{ url }}" class="demo-link" target="_blank" rel="noopener"><span>Live Demo <ion-icon name="radio-outline"></ion-icon></span></a>
       {% endif %}
-      <div class="footer-bottom">
-        <div class="container">
-          <div class="footer-copyright">
-            <p>Copyright &copy; 2025 <a href="https://github.com/anlit75">Ting-An Cheng</a></p>
-            <p class="auto-gen">Auto build by <a href="https://github.com/anlit75/RepoGallery">anlit75@RepoGallery</a> on {{ build_time }}</p>
-          </div>
-          <div class="footer-contact">
-            <p><span>Email :</span><a href="mailto:611415132@alum.ccu.edu.tw">611415132@alum.ccu.edu.tw</a></p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="templates/{{ version }}/js/plugins.js?v={{ build_id }}"></script>
-    <script src="templates/{{ version }}/js/main.js?v={{ build_id }}"></script>
-  </body>
-</html>
+    </div>
+  </div>
+</div>
+<!-- {{ repo.name }} end -->
