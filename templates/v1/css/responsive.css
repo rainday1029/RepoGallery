@@ -87,6 +87,23 @@
     text-overflow: ellipsis;
     font-size: var(--font-size-xs);
   }
+  /* !important because the scrollUp plugin animates the element with fadeIn,
+     which writes display straight onto the style attribute. */
+  #scrollUp {
+    display: none !important;
+  }
+  /* Underscores are not a break opportunity, so a name like
+     Object_Detection_tensorflow-lite stays one long token and pushes the card
+     wider than the column it sits in. */
+  .card-item .content .title,
+  .card-item .content .desc {
+    overflow-wrap: break-word;
+  }
+  /* Backstop, so nothing else can make the page swipe sideways. */
+  html,
+  body {
+    overflow-x: hidden;
+  }
   .footer-bottom {
     padding: 5px 0;
   }
