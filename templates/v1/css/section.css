@@ -125,9 +125,19 @@
    and takes the remaining space. The .hero-section prefix raises specificity
    to override responsive.css, which is imported later. */
 @media only screen and (min-width: 768px) {
+  /* Bootstrap pulls .row 12px outside the container and expects each column's
+     own 12px padding to put the content back on the container's content edge.
+     Cancelling both instead pins the avatar to that edge by construction, so
+     it lines up with the RepoGallery brand in the header no matter what the
+     gutter variables are set to. */
+  .hero-section .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
   .hero-section .hero-image {
     flex: 0 0 auto;
     width: auto;
+    padding-left: 0;
   }
   .hero-section .hero-content {
     flex: 1 1 0;
