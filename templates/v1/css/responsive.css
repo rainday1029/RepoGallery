@@ -45,12 +45,37 @@
   .hero-content h1 {
     font-size: 44px;
   }
-  .card-grid.list-view .img-wrap {
-    flex-basis: 130px;
+  /* Phones get the list layout unconditionally: two columns leave each card
+     too narrow to read. The toggle is hidden rather than disabled, and the
+     saved preference is never written to, so it applies again on a wider
+     screen. Both selectors are listed on each rule so these win whichever
+     class state the grid happens to be carrying. */
+  #toggle-view {
+    display: none;
   }
+  .card-grid .card-item,
+  .card-grid.list-view .card-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+  }
+  .card-grid .img-wrap,
+  .card-grid.list-view .img-wrap {
+    flex: 0 0 130px;
+  }
+  .card-grid .card-item img,
+  .card-grid .project-image-fallback,
   .card-grid.list-view .card-item img,
   .card-grid.list-view .project-image-fallback {
     height: 90px;
+    max-height: none;
+  }
+  .card-grid .content,
+  .card-grid.list-view .content {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-top: 0;
   }
   .footer-bottom {
     padding: 5px 0;
