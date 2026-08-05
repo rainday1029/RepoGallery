@@ -199,6 +199,7 @@ class HTMLGenerator:
             email=self._config.get('site', {}).get('email') or github_info.get('email') or '',
             title=self._config.get('site', {}).get('title', '').replace('GITHUB_USERNAME', self._github_username),
             description=self._config.get('site', {}).get('description', ''),
+            tagline=self._config.get('site', {}).get('tagline', ''),
             user_img=user_img if self._config.get('site', {}).get('show_picture', False) else '',
             cards_html=cards_html,
             sort_key=self._config.get('repos', {}).get('sort', {}).get('key', 'stars'),
