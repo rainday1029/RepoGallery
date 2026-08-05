@@ -74,24 +74,48 @@
   font-weight: var(--font-extra-bold);
   letter-spacing: 2px;
   line-height: 1.15;
-  margin-bottom: 20px;
+  /* Tight to the role line: the two read as one block, and the tagline below
+     is the one that gets breathing room. */
+  margin-bottom: 12px;
+  /* Evens out the line lengths instead of filling the first line and leaving
+     a short second one. Ignored by browsers that do not support it. */
+  text-wrap: balance;
 }
+
+/* The role line reads as an eyebrow: small, wide tracking, muted. */
 .hero-content h4 {
-  font-size: 16px;
-  font-weight: var(--font-medium);
+  font-size: 13px;
+  font-weight: var(--font-semibold);
   color: var(--secondary-color);
-  letter-spacing: 1px;
+  letter-spacing: 1.6px;
+  line-height: 1.7;
   margin-bottom: 0;
   max-width: 60ch;
+}
+/* Each segment is one unbreakable unit, so a hyphenated term like Out-of-Band
+   can no longer be split across two lines. The whitespace the template leaves
+   between the spans is where wrapping is allowed instead. :not(:only-child)
+   keeps a description with no separators free to wrap normally. */
+.hero-content h4 .item:not(:only-child) {
+  white-space: nowrap;
+}
+.hero-content h4 .item:not(:last-child)::after {
+  content: "·";
+  margin-left: 8px;
+  color: var(--color-gray);
 }
 .hero-tagline {
   font-size: 15px;
   font-weight: var(--font-normal);
   color: var(--secondary-color);
-  letter-spacing: 0.5px;
-  line-height: 1.5;
-  max-width: 60ch;
-  margin: 14px 0 0;
+  letter-spacing: 0.3px;
+  line-height: 1.6;
+  /* Shorter measure than the role line, so the two blocks do not end up with
+     near identical ragged edges. */
+  max-width: 52ch;
+  margin: 18px 0 0;
+  /* Avoids leaving a single word alone on the last line. */
+  text-wrap: pretty;
   /* The hero uppercases everything, which suits a short role line but makes a
      full sentence hard to read. */
   text-transform: none;
