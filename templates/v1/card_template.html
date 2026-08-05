@@ -33,9 +33,9 @@
     <!-- Repo State. Always visible: on a touch screen there is no hover, so
          inside the image overlay these numbers were unreachable. -->
     <div class="state">
-      <i class="state-item ion-android-star-outline"><span>{{ repo.stars }}</span></i>
-      <i class="state-item ion-fork-repo"><span>{{ repo.forks }}</span></i>
-      <i class="state-item ion-pull-request"><span>{{ repo.prs }}</span></i>
+      <span class="state-item"><ion-icon name="star-outline"></ion-icon><span>{{ repo.stars }}</span></span>
+      <span class="state-item"><ion-icon name="git-branch-outline"></ion-icon><span>{{ repo.forks }}</span></span>
+      <span class="state-item"><ion-icon name="git-pull-request-outline"></ion-icon><span>{{ repo.prs }}</span></span>
     </div>
 
     <span class="desc">{{ repo.description }}</span>
@@ -51,7 +51,7 @@
       </div>
       {% if url %}
       <!-- Live Demo Button -->
-      <a href="{{ url }}" class="demo-link" target="_blank" rel="noopener"><span>Live Demo <i class="ion-radio-waves"></i></span></a>
+      <a href="{{ url }}" class="demo-link" target="_blank" rel="noopener"><span>Live Demo <ion-icon name="radio-outline"></ion-icon></span></a>
       {% endif %}
     </div>
   </div>
