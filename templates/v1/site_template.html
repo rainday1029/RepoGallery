@@ -110,6 +110,9 @@
           <div class="hero-content col-sm-6 col-xs-12">
             <h1>{{ title }}</h1>
             <h4>{{ description }}</h4>
+            {% if tagline %}
+            <p class="hero-tagline">{{ tagline }}</p>
+            {% endif %}
           </div>
         </div>
       </div>
