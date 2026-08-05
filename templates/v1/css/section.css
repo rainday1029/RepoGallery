@@ -211,8 +211,10 @@
   font-size: var(--font-size-s);
   line-height: 20px;
 }
-.card-item .content .state-item span {
-  margin-left: 5px;
+.card-item .content .state-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 .card-item .content {
   margin-top: 10px;
