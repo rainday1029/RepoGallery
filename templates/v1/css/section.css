@@ -137,7 +137,10 @@
   .hero-section .hero-image {
     flex: 0 0 auto;
     width: auto;
-    padding-left: 0;
+    /* Matches the 20px margin header.css puts on the brand link, so the avatar
+       lines up with the "RepoGallery" text above it rather than with the
+       container edge the brand is itself inset from. */
+    padding-left: 20px;
   }
   .hero-section .hero-content {
     flex: 1 1 0;
