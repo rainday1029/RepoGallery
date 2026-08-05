@@ -398,7 +398,7 @@
     ScrollUp
   ----------------------------------- */
   $.scrollUp({
-    scrollText: '<i class="ion-chevron-up"></i>',
+    scrollText: '<ion-icon name="chevron-up-outline"></ion-icon>',
     easingType: "linear",
     scrollSpeed: 1000,
     animation: "fadeOut",
