@@ -197,6 +197,13 @@
 }
 .card-filter-bar .form-control {
   display: none;
+  /* Bootstrap's own padding and line-height make the input 38px tall, while
+     every button in the bar is 35px. Revealing it therefore grew the row by
+     3px and nudged the entire page down. Matching the button height keeps the
+     bar exactly the same size whether the input is showing or not. */
+  height: 35px;
+  padding: 0 12px;
+  font-size: var(--font-size-s);
 }
 #search-not-found {
   display: none;
