@@ -84,6 +84,18 @@
   margin-bottom: 0;
   max-width: 60ch;
 }
+.hero-tagline {
+  font-size: 15px;
+  font-weight: var(--font-normal);
+  color: var(--secondary-color);
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  max-width: 60ch;
+  margin: 14px 0 0;
+  /* The hero uppercases everything, which suits a short role line but makes a
+     full sentence hard to read. */
+  text-transform: none;
+}
 
 /* Shrink the left column to the image width so the text sits next to it
    and takes the remaining space. The .hero-section prefix raises specificity
