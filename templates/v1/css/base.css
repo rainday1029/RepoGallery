@@ -208,6 +208,11 @@ textarea:-ms-input-placeholder {
   border: 2px solid var(--secondary-color);
   border-radius: 50%;
   bottom: 80px;
+  /* The generic "a" rule further up applies transition: all, so the bottom
+     value main.js writes while scrolling was being animated: the button first
+     appeared at its old position, then drifted upwards. Only the hover colours
+     need easing. */
+  transition: background-color 0.3s ease, color 0.3s ease;
   color: var(--secondary-color);
   height: 40px;
   position: fixed;
