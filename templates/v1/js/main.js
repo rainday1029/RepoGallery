@@ -184,9 +184,10 @@
     var sortAscending = !sortDescending;
 
     function defaultAscending(key) {
-      // Alphabetical reads naturally A to Z. Counts and dates read naturally
-      // highest or newest first, which is what config.yaml controls.
-      return key === "name" ? true : !sortDescending;
+      // Per key, independent of config.yaml: alphabetical reads naturally A to
+      // Z, counts and dates read naturally highest or newest first. config only
+      // decides the initial order, which the arrow above already mirrors.
+      return key === "name";
     }
 
     function markSortItem() {
@@ -232,7 +233,8 @@
         columnWidth: 1,
       },
       getSortData: {
-        name: (itemElem) => $(itemElem).find(".title").text() || "",
+        // Lowercased to match the case insensitive order the page is built with.
+        name: (itemElem) => $(itemElem).find(".title").text().toLowerCase() || "",
         stars: (itemElem) => parseInt($(itemElem).attr("data-stars")) || 0,
         forks: (itemElem) => parseInt($(itemElem).attr("data-forks")) || 0,
         pushed_at: (itemElem) => {
