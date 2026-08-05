@@ -148,6 +148,12 @@
   .hero-content h4 {
     font-size: 14px;
   }
+  /* Below this width a segment like "Out-of-Band Server Management" is wider
+     than the column, so keeping it unbreakable would clip it. Allow the split
+     here: an awkward break beats losing the text. */
+  .hero-content h4 .item:not(:only-child) {
+    white-space: normal;
+  }
   .card-filter-bar button {
     padding: 0 15px;
   }
