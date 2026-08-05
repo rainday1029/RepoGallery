@@ -38,6 +38,12 @@
 
 /*-- Large Mobile : 480px --*/
 @media only screen and (max-width: 767px) {
+  /* The avatar is capped at 200px, so in a full width column it sat hard
+     against the left edge. It is a replaced inline element, so centring the
+     column's text centres it. */
+  .hero-image {
+    text-align: center;
+  }
   .hero-content {
     margin-top: 0;
     padding: 50px 40px;
