@@ -148,6 +148,11 @@
 .card-filter-bar {
   display: flex;
   flex-wrap: wrap;
+  /* Vertical breathing room between wrapped lines. Showing the search input
+     widens the bar enough to push it onto its own line on a phone, and with no
+     row gap it sat flush against the buttons above. A row gap has no effect at
+     all while everything still fits on one line, so desktop is unchanged. */
+  row-gap: 12px;
   margin-bottom: 55px;
   margin-left: 20px;
   margin-right: 20px;
