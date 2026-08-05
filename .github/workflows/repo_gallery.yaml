@@ -91,7 +91,6 @@ jobs:
     permissions:
       id-token: write
       pages: write
-      contents: write
     concurrency:
       group: "pages"
       cancel-in-progress: false
