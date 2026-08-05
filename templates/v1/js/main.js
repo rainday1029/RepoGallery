@@ -402,7 +402,9 @@
   $.scrollUp({
     scrollText: '<ion-icon name="chevron-up-outline"></ion-icon>',
     easingType: "linear",
-    scrollSpeed: 1000,
+    // 0 makes the plugin's animate() call finish immediately, so the button
+    // jumps to the top instead of scrolling there over a second.
+    scrollSpeed: 0,
     animation: "fadeOut",
   });
 
