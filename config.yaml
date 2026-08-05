@@ -55,8 +55,8 @@ repos:
   page_size: 10
   show_forks: false
   sort:
-    key: "stars"
-    descending: true
+    key: "name"
+    descending: false
   use_custom_image: true
   random_image: true
   random_image_theme: "Minimal"
