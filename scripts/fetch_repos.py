@@ -182,7 +182,14 @@ class RepositoryService:
         ]
 
     def _sort_repos(self, repos: List[Dict[str, Any]], sort_key: str, reverse: bool) -> List[Dict[str, Any]]:
-        return sorted(repos, key=lambda r: (r.get(sort_key) is not None, r.get(sort_key)), reverse=reverse)
+        def sort_value(repo: Dict[str, Any]) -> Any:
+            value = repo.get(sort_key)
+            # Case insensitive, otherwise ASCII order sorts every lowercase
+            # repository name after the capitalised ones. Harmless for the date
+            # strings, whose shape is identical across repos.
+            return value.lower() if isinstance(value, str) else value
+
+        return sorted(repos, key=lambda r: (sort_value(r) is not None, sort_value(r)), reverse=reverse)
 
     def _limit_repos(self, repos: List[Dict[str, Any]], config: Dict[str, Any]) -> List[Dict[str, Any]]:
         limit = config['repos'].get('limit', 0)
