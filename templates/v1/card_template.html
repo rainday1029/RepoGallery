@@ -11,7 +11,7 @@
 >
   <!-- Image -->
   <div class="img-wrap">
-    <a href="{{ repo.repo_url }}">
+    <a href="{{ repo.repo_url }}" target="_blank" rel="noopener">
       {% if image_data.image %}
       <img src="{{ image_data.image }}" alt="{{ repo.name }}" loading="lazy" />
       {% else %}
@@ -21,14 +21,14 @@
     {% if image_data.display_url %}
     <!-- Image Credit -->
     <div class="image-credit">
-      <a href="{{ image_data.display_url }}">@{{ image_data.author }}</a>
+      <a href="{{ image_data.display_url }}" target="_blank" rel="noopener">@{{ image_data.author }}</a>
     </div>
     {% endif %}
   </div>
 
   <!-- Repo Info -->
   <div class="content">
-    <a href="{{ repo.repo_url }}" class="title-a"><h3 class="title">{{ repo.name }}</h3></a>
+    <a href="{{ repo.repo_url }}" class="title-a" target="_blank" rel="noopener"><h3 class="title">{{ repo.name }}</h3></a>
 
     <!-- Repo State. Always visible: on a touch screen there is no hover, so
          inside the image overlay these numbers were unreachable. -->
