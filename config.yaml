@@ -6,6 +6,8 @@
 #    - title: Site title. Default is "Hi, I'm GITHUB_USERNAME",
 #             where GITHUB_USERNAME will be replaced by your GitHub username.
 #    - description: Site description
+#    - tagline: Optional second line shown under the description.
+#               Leave empty to hide it.
 #    - email: Contact email used by the menu link.
 #             Leave empty to fall back to your public GitHub email.
 #    - show_picture: Enable / Disable profile picture
@@ -43,7 +45,8 @@
 site:
   version: "v1"
   title: "Hi, I'm GITHUB_USERNAME"
-  description: "This is a collection of my awesome GitHub projects."
+  description: "BMC Firmware Engineer · Embedded Systems · Out-of-Band Server Management"
+  tagline: "Currently learning ML / DL, exploring its use in system telemetry and anomaly detection"
   email: "aashunleo@gmail.com"
   show_picture: true
   picture_path: ""
